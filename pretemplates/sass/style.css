@@ -1,0 +1,16 @@
+#application {
+  background: #eeebef;
+  height: 100%;
+  font-family: HelveticaNeue, Helvetica; }
+
+#header, #footer, #main-app {
+  margin: 0 auto; }
+
+#main-app {
+  max-width: 940px; }
+
+#tab-bar {
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  height: 100px;
+  background: white; }
