@@ -1,0 +1,119 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+/* line 4, ../sass/_common.sass */
+#application {
+  background-image: url("/img/debut_light/debut_light.png");
+  height: 100%;
+  font-family: HelveticaNeue, Helvetica;
+}
+
+/* line 10, ../sass/_common.sass */
+#header, #footer, #main-app {
+  margin: 0 auto;
+}
+
+/* line 13, ../sass/_common.sass */
+#main-app {
+  -webkit-box-shadow: rgba(150, 150, 150, 0.5) 1px 3px 3px;
+  -moz-box-shadow: rgba(150, 150, 150, 0.5) 1px 3px 3px;
+  box-shadow: rgba(150, 150, 150, 0.5) 1px 3px 3px;
+}
+
+/* line 16, ../sass/_common.sass */
+#tab-bar {
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
+  height: 50px;
+  background-color: white;
+  *zoom: 1;
+  filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#FFFFFFFF', endColorstr='#FFF2F2F2');
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(100%, #f2f2f2));
+  background-image: -webkit-linear-gradient(top, #ffffff 0%, #f2f2f2 100%);
+  background-image: -moz-linear-gradient(top, #ffffff 0%, #f2f2f2 100%);
+  background-image: -o-linear-gradient(top, #ffffff 0%, #f2f2f2 100%);
+  background-image: linear-gradient(top, #ffffff 0%, #f2f2f2 100%);
+}
+
+/* line 29, ../sass/_common.sass */
+#content-window {
+  height: 400px;
+  background: white;
+}
+
+/* line 33, ../sass/_common.sass */
+#sidebar {
+  height: 400px;
+  background: #edeff2;
+}
+
+/* line 37, ../sass/_common.sass */
+#account-dropdown {
+  margin-top: 30px;
+}
+/* line 41, ../sass/_common.sass */
+#account-dropdown a {
+  width: 100%;
+  font-size: 10pt;
+  padding: 11px 10px;
+  color: #969696;
+  display: block;
+}
+/* line 48, ../sass/_common.sass */
+#account-dropdown a img {
+  margin-right: 10px;
+  float: left;
+}
+/* line 52, ../sass/_common.sass */
+#account-dropdown a small {
+  margin-left: 5px;
+  line-height: 11pt;
+}
+
+/* line 56, ../sass/_common.sass */
+.clicked {
+  -webkit-box-shadow: rgba(150, 150, 150, 0.5) 0px 0px 9px;
+  -moz-box-shadow: rgba(150, 150, 150, 0.5) 0px 0px 9px;
+  box-shadow: rgba(150, 150, 150, 0.5) 0px 0px 9px;
+  opacity: 0.7;
+  background: white;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border: 1px solid #c8c8c8;
+}
+
+/* line 64, ../sass/_common.sass */
+#account-dropdown-sub {
+  -webkit-box-shadow: rgba(150, 150, 150, 0.5) 0px 2px 6px;
+  -moz-box-shadow: rgba(150, 150, 150, 0.5) 0px 2px 6px;
+  box-shadow: rgba(150, 150, 150, 0.5) 0px 2px 6px;
+  width: 137px;
+  top: 26px;
+  position: absolute;
+  z-index: 100;
+  margin: 12px 0px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  background: white;
+  border: 1px solid #dadada;
+}
+/* line 76, ../sass/_common.sass */
+#account-dropdown-sub ul li a {
+  width: 100%;
+  font-size: 10pt;
+  padding: 5px 10px;
+  font-weight: 600;
+  color: #323232;
+  border-bottom: 1px solid #f0f0f0;
+}
+/* line 83, ../sass/_common.sass */
+#account-dropdown-sub ul li a img {
+  float: left;
+  margin-right: 10px;
+  margin-top: 2px;
+}
+/* line 87, ../sass/_common.sass */
+#account-dropdown-sub ul {
+  width: 100%;
+}

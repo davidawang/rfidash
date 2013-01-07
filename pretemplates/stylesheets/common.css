@@ -1,0 +1,37 @@
+/* line 4, ../sass/common.sass */
+#application {
+  background: #eeebef;
+  height: 100%;
+  font-family: HelveticaNeue, Helvetica;
+}
+
+/* line 10, ../sass/common.sass */
+#header, #footer, #main-app {
+  margin: 0 auto;
+}
+
+/* line 13, ../sass/common.sass */
+#tab-bar {
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  height: 50px;
+  background: white;
+}
+
+/* line 19, ../sass/common.sass */
+#content-window {
+  height: 400px;
+  background: #c8c8c8;
+}
+
+/* line 23, ../sass/common.sass */
+#sidebar {
+  height: 400px;
+  background: #e6e6e6;
+}
+
+/* line 27, ../sass/common.sass */
+#navigation ul li {
+  display: inline;
+  list-style-type: none;
+}

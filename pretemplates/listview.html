@@ -1,35 +1,39 @@
 <html>
 <head>
 	<title>Dashboard</title>
-	<link href="../foundation/stylesheets/foundation.min.css" rel="stylesheet">
-	<link href="sass/style.css" rel="stylesheet">
+	<link href="/stylesheets/app.css" media="screen, projector, print" rel="stylesheet" type="text/css" />
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <div id="application">
 	<div id="header" class="row">
-		<h3 id="logo" class="three columns">RFIM</h3>
-		<div id="navigation" class="nine columns">
-			<ul>
-				<li>About</li>
-				<li>Contact</li>
-				<li>Help</li>
-			</ul>
+		<img src="/img/logo.png" class="three columns" style="height:60px; width: 100px;">
+		<div id="account-dropdown" class="two columns offset-by-7">
+			<a href="#" class="clicked">Preetam Dso<img src="/img/avatar.png"><small>&#x25BC;</small></a>
+			<div id="account-dropdown-sub">
+				<ul>
+					<li><a href="#"><img src="/img/settings.png">Preferences</a></li>
+					<li><a href="#"><img src="/img/logout.png">Sign Out</a></li>
+				</ul>
+			</div>
 		</div>
 		<!-- This is where the logo, possibly links go (or account info) -->
 	</div>
 
 	<!-- Begin application window -->
-	<div id="main-app" class="row twelve columns">
+	<div id="main-app" class="row">
 		<div id="tab-bar">
 		</div>
-		<div id="content-window" class="ten columns">
+		<div id="content-window" class="ten columns push-two">
 		</div>
-		<aside id="sidebar" class="two columns">
+		<aside id="sidebar" class="two columns pull-ten">
 		</aside>
 	</div>
 	<!-- End application window -->
 
-	<div id="footer"></div>
+	<div id="footer">
+
+	</div>
 </div>
 </body>
 
