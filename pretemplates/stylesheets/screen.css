@@ -3,25 +3,34 @@
  * Import this file using the following HTML or equivalent:
  * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
 /* line 4, ../sass/_common.sass */
+#logo {
+  color: #0e94ec;
+  margin: 25px 0 0 0;
+}
+
+/* line 8, ../sass/_common.sass */
 #application {
   background-image: url("/img/debut_light/debut_light.png");
   height: 100%;
   font-family: HelveticaNeue, Helvetica;
 }
 
-/* line 10, ../sass/_common.sass */
+/* line 14, ../sass/_common.sass */
 #header, #footer, #main-app {
   margin: 0 auto;
 }
 
-/* line 13, ../sass/_common.sass */
+/* line 17, ../sass/_common.sass */
 #main-app {
-  -webkit-box-shadow: rgba(150, 150, 150, 0.5) 1px 3px 3px;
-  -moz-box-shadow: rgba(150, 150, 150, 0.5) 1px 3px 3px;
-  box-shadow: rgba(150, 150, 150, 0.5) 1px 3px 3px;
+  -webkit-box-shadow: rgba(150, 150, 150, 0.5) 0px 3px 4px;
+  -moz-box-shadow: rgba(150, 150, 150, 0.5) 0px 3px 4px;
+  box-shadow: rgba(150, 150, 150, 0.5) 0px 3px 4px;
+  border: 1px solid gainsboro;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 }
 
-/* line 16, ../sass/_common.sass */
+/* line 23, ../sass/_common.sass */
 #tab-bar {
   border-top-right-radius: 8px;
   border-top-left-radius: 8px;
@@ -34,45 +43,72 @@
   background-image: -moz-linear-gradient(top, #ffffff 0%, #f2f2f2 100%);
   background-image: -o-linear-gradient(top, #ffffff 0%, #f2f2f2 100%);
   background-image: linear-gradient(top, #ffffff 0%, #f2f2f2 100%);
+  border-bottom: 1px solid gainsboro;
+}
+/* line 32, ../sass/_common.sass */
+#tab-bar ul li {
+  display: inline-block;
+  background-color: #d0d0d0;
+  *zoom: 1;
+  filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#FFD0D0D0', endColorstr='#FFE6E6E6');
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #d0d0d0), color-stop(1%, #ffffff), color-stop(100%, #e6e6e6));
+  background-image: -webkit-linear-gradient(top, #d0d0d0 0%, #ffffff 1%, #e6e6e6 100%);
+  background-image: -moz-linear-gradient(top, #d0d0d0 0%, #ffffff 1%, #e6e6e6 100%);
+  background-image: -o-linear-gradient(top, #d0d0d0 0%, #ffffff 1%, #e6e6e6 100%);
+  background-image: linear-gradient(top, #d0d0d0 0%, #ffffff 1%, #e6e6e6 100%);
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
+  margin: 5px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #d2d2d2;
+}
+/* line 46, ../sass/_common.sass */
+#tab-bar ul li:active, #tab-bar ul li:hover {
+  background: #e6e6e6;
+  -webkit-box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-/* line 29, ../sass/_common.sass */
+/* line 50, ../sass/_common.sass */
 #content-window {
   height: 400px;
   background: white;
 }
 
-/* line 33, ../sass/_common.sass */
+/* line 54, ../sass/_common.sass */
 #sidebar {
   height: 400px;
   background: #edeff2;
 }
 
-/* line 37, ../sass/_common.sass */
-#account-dropdown {
+/* line 58, ../sass/_common.sass */
+div#account-dropdown {
   margin-top: 30px;
 }
-/* line 41, ../sass/_common.sass */
-#account-dropdown a {
+/* line 60, ../sass/_common.sass */
+div#account-dropdown a {
+  line-height: 14pt;
   width: 100%;
   font-size: 10pt;
   padding: 11px 10px;
   color: #969696;
   display: block;
 }
-/* line 48, ../sass/_common.sass */
-#account-dropdown a img {
+/* line 68, ../sass/_common.sass */
+div#account-dropdown a img {
   margin-right: 10px;
   float: left;
 }
-/* line 52, ../sass/_common.sass */
-#account-dropdown a small {
+/* line 72, ../sass/_common.sass */
+div#account-dropdown a small {
   margin-left: 5px;
   line-height: 11pt;
 }
-
-/* line 56, ../sass/_common.sass */
-.clicked {
+/* line 76, ../sass/_common.sass */
+div#account-dropdown:hover > a {
   -webkit-box-shadow: rgba(150, 150, 150, 0.5) 0px 0px 9px;
   -moz-box-shadow: rgba(150, 150, 150, 0.5) 0px 0px 9px;
   box-shadow: rgba(150, 150, 150, 0.5) 0px 0px 9px;
@@ -80,14 +116,20 @@
   background: white;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  border: 1px solid #c8c8c8;
+  border-right: 1px solid #c8c8c8;
+  border-left: 1px solid #c8c8c8;
+}
+/* line 85, ../sass/_common.sass */
+div#account-dropdown:hover #account-dropdown-sub {
+  display: block;
 }
 
-/* line 64, ../sass/_common.sass */
+/* line 88, ../sass/_common.sass */
 #account-dropdown-sub {
-  -webkit-box-shadow: rgba(150, 150, 150, 0.5) 0px 2px 6px;
-  -moz-box-shadow: rgba(150, 150, 150, 0.5) 0px 2px 6px;
-  box-shadow: rgba(150, 150, 150, 0.5) 0px 2px 6px;
+  display: none;
+  -webkit-box-shadow: rgba(150, 150, 150, 0.5) 0px 3px 5px;
+  -moz-box-shadow: rgba(150, 150, 150, 0.5) 0px 3px 5px;
+  box-shadow: rgba(150, 150, 150, 0.5) 0px 3px 5px;
   width: 137px;
   top: 26px;
   position: absolute;
@@ -98,7 +140,7 @@
   background: white;
   border: 1px solid #dadada;
 }
-/* line 76, ../sass/_common.sass */
+/* line 101, ../sass/_common.sass */
 #account-dropdown-sub ul li a {
   width: 100%;
   font-size: 10pt;
@@ -107,13 +149,13 @@
   color: #323232;
   border-bottom: 1px solid #f0f0f0;
 }
-/* line 83, ../sass/_common.sass */
+/* line 108, ../sass/_common.sass */
 #account-dropdown-sub ul li a img {
   float: left;
   margin-right: 10px;
   margin-top: 2px;
 }
-/* line 87, ../sass/_common.sass */
+/* line 112, ../sass/_common.sass */
 #account-dropdown-sub ul {
   width: 100%;
 }
