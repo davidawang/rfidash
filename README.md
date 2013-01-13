@@ -36,5 +36,27 @@ addInventory(itemid, num) // add inventory to item by #num
 decreaseInventory(itemid, num) // decrement inventory to item by #num
 ```
 
+## Data structures in redis
+
+```
+Keys:
+	- itemid:[itemid]
+	- sectionid:[sectiontype]
+	- modifierid:[modifiertype]
+
+Hashes:
+	- HMSET itemid:[itemid] sectionid [sectionid] name [name string here] type [modifier type here]
+
+Sorted set: (this is the main thing that we care about, at least for v1)
+	- [itemid key here] [quantity]
+
+```
+
+
+
+
+
+
+
 ## PUB SUB
  for now will contain all items, ideally later it will have it sorted by different categories or different notification levels.
