@@ -1,7 +1,17 @@
 rfidash
 =======
 
-# Sample JSON:
+## Timeline:
+- 1/13 Create express app that mimics all the commands to interface the redis client.
+- 1/16 turn these into background tasks, which are run every minute
+- 1/16 make socket.io work with this
+- 1/17 setup backbone
+- 1/18 make socket.io work with backbone
+- 1/19 fix animations, etc...
+- 1/20 should be mostly done by now, just perfect stuff on the frontend
+
+
+## Sample JSON:
 
 
 ```
