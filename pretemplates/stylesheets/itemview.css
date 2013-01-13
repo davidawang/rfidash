@@ -1,0 +1,28 @@
+/* line 2, ../sass/itemview.sass */
+#item-search-form input {
+  box-shadow: inset 0px 0px 7px rgba(150, 150, 150, 0.5);
+  border: none;
+}
+/* line 5, ../sass/itemview.sass */
+#item-search-form input::-webkit-input-placeholder {
+  color: #c8c8c8;
+}
+/* line 7, ../sass/itemview.sass */
+#item-search-form input:focus {
+  outline: none;
+}
+
+/* line 10, ../sass/itemview.sass */
+#item-column-titles {
+  border-top: 1px solid #c8c8c8;
+  border-bottom: 1px solid #c8c8c8;
+  height: 22px;
+  line-height: 15pt;
+  font-weight: bolder;
+  font-size: 9pt;
+  color: #c8c8c8;
+}
+/* line 19, ../sass/itemview.sass */
+#item-column-titles span {
+  padding: 0px 5px;
+}
