@@ -23,4 +23,10 @@ program
 		newItem.getItems();
 	});
 
+program
+	.command('change <id> <quantity>')
+	.action(function(id, quantity){
+		newItem.changeInventory(id, quantity);
+	});
+
 program.parse(process.argv);
