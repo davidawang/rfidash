@@ -2,7 +2,7 @@ rfidash
 =======
 
 ## Timeline:
-- 1/13 Create express app that mimics all the commands to interface the redis client.
+- 1/13 Create command line tool that mimics all the commands to interface the redis client.
 - 1/16 turn these into background tasks, which are run every minute
 - 1/16 make socket.io work with this
 - 1/17 setup backbone
