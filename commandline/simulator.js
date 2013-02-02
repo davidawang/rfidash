@@ -24,9 +24,15 @@ program
 	});
 
 program
-	.command('change <id> <quantity>')
-	.action(function(id, quantity){
-		newItem.changeInventory(id, quantity);
+	.command('newitems <newnum>')
+	.action(function(quantity){
+		newItem.generateRandomItems(quantity);
+	});
+
+program
+	.command('change')
+	.action(function(){
+		newItem.changeInventory2();
 	});
 
 program.parse(process.argv);

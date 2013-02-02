@@ -10,15 +10,28 @@ var redis = require("redis"),
 
 
 Item = function(){
-	min_num_items = 204;
-	sections = ["M", "W", "b", "g", "k"];
-	type = ["m", "w", "c"];
+	var min_num_items = 204;
+	var sections = ["M", "W", "b", "g", "k"];
+	var type = ["m", "w", "c"];
+	var cur_num_items = 0;
+
+	this.generateNewItemJson = function(){
+		cur_num_items++;
+
+		return {
+			'itemid': cur_num_items,
+			'section': sections[_.random(0, sections.length - 1)],
+			'name': faker.random.bs_adjective() + " " + faker.random.bs_noun(),
+			'type': type[_.random(0, type.length - 1)],
+			'quantity': _.random(20, 100)
+		}
+	}
 }
 
 
 // generates a random item with "itemid"
 Item.prototype.addItemWithID = function(itemid) {
-	var sectionid = sections[_.random(0, sections.length - 1)];
+	var sectionid = this.sections[_.random(0, this.sections.length - 1)];
 	var name = faker.random.bs_adjective() + " " + faker.random.bs_noun();
 	var typeid = type[_.random(0, type.length - 1)];
 	var result = {
@@ -27,17 +40,37 @@ Item.prototype.addItemWithID = function(itemid) {
 		'type': typeid,
 		'quantity': _.random(20, 100)
 	}
+
+
 	client.hmset(itemid, "section", sectionid, "name", name, "type", typeid, function(err, res1){
 		if (err) throw err;
 
 		var args = [ 'items', result.quantity , itemid]; // add a random quantity of items
 		client.zadd(args, function (err, res) {
 			if (err) throw err;
+
 		});
 		
 	});
 	return result;
 }
+
+// // generates a random item with "itemid"
+// Item.prototype.addItemWithIDcopy = function(itemid, result_arr, multi) {
+// 	var newitem = this.generateNewItemJson();
+// 	console.log(newitem);
+// 	multi.hmset(itemid, "section", newitem.section, "name", newitem.name, "type", newitem.type, function(err, res){
+// 		if (err) throw err;
+
+// 		var args = ['items', newitem.quantity , itemid]; // add a random quantity of items
+// 		multi.zadd(args, function (err, res) {
+// 			if (err) throw err;
+// 			result_arr.push(newitem);
+// 		});
+		
+// 	});
+// 	return multi;
+// }
 
 // Generates a random # "min_num_items", clears redis database before doing so
 Item.prototype.init = function(){
@@ -52,30 +85,20 @@ Item.prototype.init = function(){
 			})(i));
 		}
 		console.log(JSON.stringify(itemsJson));
-	});
-	
-	
-}
-
-Item.prototype.getItem = function(itemid, arr) {
-	client.hgetall("itemid:" + itemid, function(err, res) {
-		arr.push(res);
-	});
+	});	
 }
 
 
 // returns
 //		total number of items
 //		json of all items
-Item.prototype.getItems = function(){
-	var that = this;
+Item.prototype.getItems = function(min, max){
 
-	var args = ['items', Infinity, 0, 'WITHSCORES'];
+	var args = ['items', max||Infinity, min||-Infinity, 'WITHSCORES'];
 	client.zrevrangebyscore(args, function(err, replies) {
 		if (err) throw err;
 		var result = [];
 		var multi = client.multi();
-		var _this = this;
 
 		for (var i = 0; i < replies.length; i = i + 2) {
 			var itemid = replies[i];
@@ -85,7 +108,7 @@ Item.prototype.getItems = function(){
 				// var callback = 
 				multi.hgetall(itemid, function(err, res) {
 					if (err) throw err;
-					result.push(_.extend(res, {'quantity': quantity}));
+					result.push(_.extend(res, {'quantity': quantity, 'itemid': parseInt(itemid.replace(/[^0-9.]/g, ""))}));
 				});
 			})(itemid, quantity);
 
@@ -98,25 +121,78 @@ Item.prototype.getItems = function(){
 
 // Generates N random new items
 Item.prototype.generateRandomItems = function(number_of_new_items){
-	var that = this;
+	var _this = this;
+	var result_arr = [];
+	var multi = client.multi();
+	var multi2 = client.multi();
 
-	client.zcard('items', function(err, res) { // get current number of items
-		var current_total_items = res;
-		for(var i = 0; i < number_of_new_items; i++) {
-			var itemid = "itemid:" + (i + current_total_items)
-			that.addItemWithID(itemid);
-		}
+	for(var i = 0; i < number_of_new_items; i++) {
+		(function(){
+			var newitem = _this.generateNewItemJson();
+
+			multi.hmset(newitem.itemid, "section", newitem.section, "name", newitem.name, "type", newitem.type, function(err, res){
+				if (err) throw err;
+
+				var args = ['items', newitem.quantity , newitem.itemid]; // add a random quantity of items
+				multi2.zadd(args, function (err, res) {
+					if (err) throw err;
+					result_arr.push(newitem);
+				});
+				
+			});
+		})();
+	}
+
+	multi.exec(function(err, res){
+		if (err) throw err;
+		console.log(res);
+	});
+
+	multi2.exec(function(err, res){
+		if (err) throw err;
+		console.log(result_arr);
 	});
 }
 
-Item.prototype.changeInventory = function(itemid, delta) {
-	client.zincrby('items', delta , itemid, function(err, res) {
-		if (res < 0) { // if inventory < 0, set it back to 0
-			var args = [ 'items', 0 , itemid];
-			client.zadd(args, function (err, res) {
-				console.log(res);
+
+Item.prototype.changeInventory2 = function(){
+	var itemids = ['itemid:101'];
+	var deltas = [-10];
+	this.changeInventory(itemids, deltas);
+}
+
+// Accepts an array of itemids and their corresponding deltas in the delta array.
+Item.prototype.changeInventory = function(itemids, deltas) {
+	var multi = client.multi();
+	var multi2 = client.multi();
+	
+	var jsonResponse = [];
+
+	for(var i = 0; i < itemids.length; i++) {
+		(function(i){
+			multi.zincrby('items', deltas[i], itemids[i], function(err, res) {
+				var newQuantity = parseFloat(res);
+
+				if (newQuantity < 0) { // if inventory < 0, set it back to 0
+					console.log("quantity less than zero!");
+					var args = ['items', 0, itemids[i]];
+					multi2.zadd(args, function (err, res) {
+						if (err) throw err;
+						newQuantity = 0;
+					});
+				}
+				multi2.hgetall(itemids[i], function(err, res) {
+					if (err) throw err;
+					jsonResponse.push(_.extend(res, {'quantity': newQuantity, 'itemid': parseInt(itemids[i].replace(/[^0-9.]/g, ""))}));
+				});
 			});
-		}
+		})(i);
+	}
+
+	multi.exec(function(err, res) {
+		multi2.exec(function(err, res) {
+			console.log(jsonResponse);		
+		});
 	});
 }
 
