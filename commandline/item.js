@@ -2,7 +2,6 @@ var redis = require("redis"),
     client = redis.createClient(6379, '127.0.0.1', {return_buffers: false}),
     pubsub  = redis.createClient(null, null, null),
     _ = require('underscore'),
-    faker = require('./Faker.js'),
     util = require('util'),
     socket = require('socket.io'),
     eyes = require('eyes');
@@ -12,6 +11,8 @@ var redis = require("redis"),
 Item = function(){
 	var min_num_items = 204;
 	var sections = ["M", "W", "b", "g", "k"];
+	var brands = ["Adidas", "Armani", "Gap", "Macys", "Guess", "Diesel", "Dockers", "JCrew", "Kenneth Cole", "Lacoste", "Ralpha Lauren Polo", "Nike", "Tommy Hilfiger"];
+	var clothings = ["pants", "jeans", "sweather", "peacoat", "shoes", "socks", "undergarments", "vest", "turtleneck", "trench coat", "gloves"];
 	var type = ["m", "w", "c"];
 	var cur_num_items = 0;
 
@@ -21,7 +22,7 @@ Item = function(){
 		return {
 			'itemid': cur_num_items,
 			'section': sections[_.random(0, sections.length - 1)],
-			'name': faker.random.bs_adjective() + " " + faker.random.bs_noun(),
+			'name': brands[_.random(0, brands.length - 1)]+ " " + clothings[_.random(0, clothings.length - 1)],
 			'type': type[_.random(0, type.length - 1)],
 			'quantity': _.random(20, 100)
 		}
@@ -103,7 +104,6 @@ Item.prototype.generateRandomItems = function(number_of_new_items){
 	for(var i = 0; i < number_of_new_items; i++) {
 		(function(){
 			var newitem = _this.generateNewItemJson();
-			eyes.inspect(newitem);
 			multi.hmset("itemid:" + newitem.itemid, "section", newitem.section, "name", newitem.name, "type", newitem.type, function(err, res){
 				if (err) throw err;
 
@@ -121,15 +121,15 @@ Item.prototype.generateRandomItems = function(number_of_new_items){
 		if (err) throw err;
 		multi2.exec(function(err, res){
 			if (err) throw err;
-			console.log(result_arr);
+			console.log(JSON.stringify(result_arr));
 		});
 	});
 }
 
 
 Item.prototype.changeInventory2 = function(){
-	var itemids = ['itemid:131'];
-	var deltas = [-5];
+	var itemids = ['itemid:127'];
+	var deltas = [-3];
 	this.changeInventory(itemids, deltas);
 }
 
@@ -174,6 +174,5 @@ Item.prototype.changeInventory = function(itemids, deltas) {
 // deleteItem(itemId) // deletes the item with the item id
 // addInventory(itemid, num) // add inventory to item by #num
 // decreaseInventory(itemid, num) // decrement inventory to item by #num
-
 
 module.exports = Item;
