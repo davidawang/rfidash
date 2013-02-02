@@ -29,62 +29,38 @@ Item = function(){
 }
 
 
-// generates a random item with "itemid"
-Item.prototype.addItemWithID = function(itemid) {
-	var sectionid = this.sections[_.random(0, this.sections.length - 1)];
-	var name = faker.random.bs_adjective() + " " + faker.random.bs_noun();
-	var typeid = type[_.random(0, type.length - 1)];
-	var result = {
-		'section': sectionid,
-		'name': name,
-		'type': typeid,
-		'quantity': _.random(20, 100)
-	}
+// we don't use this for now since it doesn't support multi.
+// Item.prototype.addItemWithID = function(itemid) {
+// 	var sectionid = this.sections[_.random(0, this.sections.length - 1)];
+// 	var name = faker.random.bs_adjective() + " " + faker.random.bs_noun();
+// 	var typeid = type[_.random(0, type.length - 1)];
+// 	var result = {
+// 		'section': sectionid,
+// 		'name': name,
+// 		'type': typeid,
+// 		'quantity': _.random(20, 100)
+// 	}
 
 
-	client.hmset(itemid, "section", sectionid, "name", name, "type", typeid, function(err, res1){
-		if (err) throw err;
-
-		var args = [ 'items', result.quantity , itemid]; // add a random quantity of items
-		client.zadd(args, function (err, res) {
-			if (err) throw err;
-
-		});
-		
-	});
-	return result;
-}
-
-// // generates a random item with "itemid"
-// Item.prototype.addItemWithIDcopy = function(itemid, result_arr, multi) {
-// 	var newitem = this.generateNewItemJson();
-// 	console.log(newitem);
-// 	multi.hmset(itemid, "section", newitem.section, "name", newitem.name, "type", newitem.type, function(err, res){
+// 	client.hmset(itemid, "section", sectionid, "name", name, "type", typeid, function(err, res1){
 // 		if (err) throw err;
 
-// 		var args = ['items', newitem.quantity , itemid]; // add a random quantity of items
-// 		multi.zadd(args, function (err, res) {
+// 		var args = [ 'items', result.quantity , itemid]; // add a random quantity of items
+// 		client.zadd(args, function (err, res) {
 // 			if (err) throw err;
-// 			result_arr.push(newitem);
+
 // 		});
 		
 // 	});
-// 	return multi;
+// 	return result;
 // }
 
 // Generates a random # "min_num_items", clears redis database before doing so
 Item.prototype.init = function(){
-	var that = this;
+	var _this = this;
 	
 	client.flushall(function(err, res){
-		var itemsJson = [];
-		for (var i = 0; i < min_num_items; i ++) {
-			itemsJson.push((function(i, itemsJson){
-				var itemid = "itemid:" + i;
-				return that.addItemWithID(itemid);
-			})(i));
-		}
-		console.log(JSON.stringify(itemsJson));
+		_this.generateRandomItems(204);
 	});	
 }
 
@@ -104,8 +80,6 @@ Item.prototype.getItems = function(min, max){
 			var itemid = replies[i];
 			var quantity = replies[i + 1];
 			(function(itemid, quantity){
-								// result[itemid] = quantity;
-				// var callback = 
 				multi.hgetall(itemid, function(err, res) {
 					if (err) throw err;
 					result.push(_.extend(res, {'quantity': quantity, 'itemid': parseInt(itemid.replace(/[^0-9.]/g, ""))}));
@@ -114,7 +88,7 @@ Item.prototype.getItems = function(min, max){
 
 		}
 		multi.exec(function(err, replies){
-			console.log(result);
+			console.log(JSON.stringify(result))
 		})
 	});
 }
@@ -129,11 +103,11 @@ Item.prototype.generateRandomItems = function(number_of_new_items){
 	for(var i = 0; i < number_of_new_items; i++) {
 		(function(){
 			var newitem = _this.generateNewItemJson();
-
-			multi.hmset(newitem.itemid, "section", newitem.section, "name", newitem.name, "type", newitem.type, function(err, res){
+			eyes.inspect(newitem);
+			multi.hmset("itemid:" + newitem.itemid, "section", newitem.section, "name", newitem.name, "type", newitem.type, function(err, res){
 				if (err) throw err;
 
-				var args = ['items', newitem.quantity , newitem.itemid]; // add a random quantity of items
+				var args = ['items', newitem.quantity , "itemid:" + newitem.itemid]; // add a random quantity of items
 				multi2.zadd(args, function (err, res) {
 					if (err) throw err;
 					result_arr.push(newitem);
@@ -145,19 +119,17 @@ Item.prototype.generateRandomItems = function(number_of_new_items){
 
 	multi.exec(function(err, res){
 		if (err) throw err;
-		console.log(res);
-	});
-
-	multi2.exec(function(err, res){
-		if (err) throw err;
-		console.log(result_arr);
+		multi2.exec(function(err, res){
+			if (err) throw err;
+			console.log(result_arr);
+		});
 	});
 }
 
 
 Item.prototype.changeInventory2 = function(){
-	var itemids = ['itemid:101'];
-	var deltas = [-10];
+	var itemids = ['itemid:131'];
+	var deltas = [-5];
 	this.changeInventory(itemids, deltas);
 }
 
@@ -165,7 +137,7 @@ Item.prototype.changeInventory2 = function(){
 Item.prototype.changeInventory = function(itemids, deltas) {
 	var multi = client.multi();
 	var multi2 = client.multi();
-	
+
 	var jsonResponse = [];
 
 	for(var i = 0; i < itemids.length; i++) {
@@ -191,7 +163,7 @@ Item.prototype.changeInventory = function(itemids, deltas) {
 
 	multi.exec(function(err, res) {
 		multi2.exec(function(err, res) {
-			console.log(jsonResponse);		
+			console.log(JSON.stringify(jsonResponse));		
 		});
 	});
 }
