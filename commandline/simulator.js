@@ -1,38 +1,19 @@
-#!/usr/bin/env node
 
-/**
- * Module dependencies.
- */
 
-var program = require('commander');
-var item = require('./item.js');
-var newItem = new item();
+function Simulator(){
 
-program
-	.version('0.0.1')
+}
 
-program
-	.command('init')
-	.action(function(){
-		newItem.init();
-	});
 
-program
-	.command('all')
-	.action(function(){
-		newItem.getItems();
-	});
 
-program
-	.command('newitems <newnum>')
-	.action(function(quantity){
-		newItem.generateRandomItems(quantity);
-	});
+// every few minutes does one of few things:
+// 		1) changes inventory of n random items
+// 		2) adds new items (this should be less frequent)
+// 		3) delete items (when inventory is gone)
+// 		4) on new socket.io connection, do a return a json of all items
 
-program
-	.command('change')
-	.action(function(){
-		newItem.changeInventory2();
-	});
 
-program.parse(process.argv);
+
+
+
+module.exports = Simulator;
