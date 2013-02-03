@@ -15,6 +15,13 @@ Item = function(){
 	var clothings = ["pants", "jeans", "sweather", "peacoat", "shoes", "socks", "undergarments", "vest", "turtleneck", "trench coat", "gloves"];
 	var type = ["m", "w", "c"];
 	var cur_num_items = 0;
+	
+	// reload the largest id number so our indexes don't get overwritten
+	client.get("itemid:largest", function(err, res) {
+		if (err) throw err;
+		console.log(res);
+		cur_num_items = res;
+	})
 
 	this.generateNewItemJson = function(){
 		cur_num_items++;
@@ -26,6 +33,10 @@ Item = function(){
 			'type': type[_.random(0, type.length - 1)],
 			'quantity': _.random(20, 100)
 		}
+	}
+
+	this.resetLargestItemId = function() {
+		cur_num_items = 0;
 	}
 }
 
@@ -61,7 +72,8 @@ Item.prototype.init = function(){
 	var _this = this;
 	
 	client.flushall(function(err, res){
-		_this.generateRandomItems(204);
+		_this.resetLargestItemId();
+		return _this.generateRandomItems(204);
 	});	
 }
 
@@ -90,6 +102,7 @@ Item.prototype.getItems = function(min, max){
 		}
 		multi.exec(function(err, replies){
 			console.log(JSON.stringify(result))
+			return JSON.stringify(result);
 		})
 	});
 }
@@ -119,17 +132,21 @@ Item.prototype.generateRandomItems = function(number_of_new_items){
 
 	multi.exec(function(err, res){
 		if (err) throw err;
-		multi2.exec(function(err, res){
+		multi2.exec(function(err, replies){
 			if (err) throw err;
+			client.incrby('itemid:largest', replies.length, function(err, res) {
+
+			});
 			console.log(JSON.stringify(result_arr));
+			return JSON.stringify(result_arr);
 		});
 	});
 }
 
 
 Item.prototype.changeInventory2 = function(){
-	var itemids = ['itemid:127'];
-	var deltas = [-3];
+	var itemids = ['itemid:127', 'itemid:136'];
+	var deltas = [-3, -2];
 	this.changeInventory(itemids, deltas);
 }
 
@@ -163,7 +180,8 @@ Item.prototype.changeInventory = function(itemids, deltas) {
 
 	multi.exec(function(err, res) {
 		multi2.exec(function(err, res) {
-			console.log(JSON.stringify(jsonResponse));		
+			console.log(JSON.stringify(jsonResponse));
+			return JSON.stringify(jsonResponse);		
 		});
 	});
 }
