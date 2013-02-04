@@ -7,6 +7,8 @@
 var program = require('commander');
 var item = require('./item.js');
 var newItem = new item();
+var Simulator = require('./simulator.js');
+var s = new Simulator();
 
 program
 	.version('0.0.1')
@@ -48,6 +50,14 @@ program
 	.command('ids')
 	.action(function(){
 		newItem.getValidIds();
+	});
+
+program
+	.command('s')
+	.action(function(){
+		// setTimeout(function(){
+			s.simulate_inventorychange();
+		// }, 100);
 	});
 
 program.parse(process.argv);

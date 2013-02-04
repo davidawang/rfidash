@@ -96,36 +96,30 @@ Item.prototype.getItems = function(min, max){
 					result.push(_.extend(res, {'quantity': quantity, 'itemid': parseInt(itemid.replace(/[^0-9.]/g, ""))}));
 				});
 			})(itemid, quantity);
-
 		}
 		multi.exec(function(err, replies){
 			console.log(JSON.stringify(result))
-			client.quit();
+			// client.quit();
 			return JSON.stringify(result);
 		})
 	});
 }
 
-Item.prototype.getValidIds = function(min, max){
+Item.prototype.getValidIds = function(min, max, callback){
 	var args = ['items', max||Infinity, min||-Infinity];
 	client.zrevrangebyscore(args, function(err, replies) {
 		if (err) throw err;
 		var result = [];
-		var multi = client.multi();
 
 		for (var i = 0; i < replies.length; i++) {
 			result.push(replies[i]);
-			// var itemid = replies[i];
-			// (function(itemid){
-				// result.push(it)
-			// })(itemid);
-
 		}
-		multi.exec(function(err, replies){
-			console.log(JSON.stringify(result))
-			client.quit();
+		console.log(JSON.stringify(result));
+		// client.quit();
+		if (callback) {
+			callback(result);
+		} else 
 			return JSON.stringify(result);
-		})
 	});
 }
 
@@ -157,7 +151,7 @@ Item.prototype.generateRandomItems = function(number_of_new_items){
 		multi2.exec(function(err, replies){
 			if (err) throw err;
 			client.incrby('itemid:largest', replies.length, function(err, res) {
-				client.quit();
+				// client.quit();
 			});
 			console.log(JSON.stringify(result_arr));
 			
@@ -166,7 +160,7 @@ Item.prototype.generateRandomItems = function(number_of_new_items){
 	});
 }
 
-
+// test for cli
 Item.prototype.changeInventory2 = function(){
 	var itemids = ['itemid:127', 'itemid:136'];
 	var deltas = [-3, -2];
@@ -174,7 +168,7 @@ Item.prototype.changeInventory2 = function(){
 }
 
 // Accepts an array of itemids and their corresponding deltas in the delta array.
-Item.prototype.changeInventory = function(itemids, deltas) {
+Item.prototype.changeInventory = function(itemids, deltas, callback) {
 	var multi = client.multi();
 	var multi2 = client.multi();
 
@@ -204,7 +198,7 @@ Item.prototype.changeInventory = function(itemids, deltas) {
 	multi.exec(function(err, res) {
 		multi2.exec(function(err, res) {
 			console.log(JSON.stringify(jsonResponse));
-			client.quit();
+			// client.quit();
 			return JSON.stringify(jsonResponse);
 		});
 	});
@@ -212,12 +206,11 @@ Item.prototype.changeInventory = function(itemids, deltas) {
 
 }
 
-Item.prototype.getTotalNumber = function() {
+Item.prototype.getTotalNumber = function(callback) {
 	client.zcard('items', function(err, res) {
-		console.log(res);
-
+		return res;
 	});
-	client.quit();
+	// client.quit();
 }
 
 // TODO:
