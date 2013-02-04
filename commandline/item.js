@@ -106,6 +106,29 @@ Item.prototype.getItems = function(min, max){
 	});
 }
 
+Item.prototype.getValidIds = function(min, max){
+	var args = ['items', max||Infinity, min||-Infinity];
+	client.zrevrangebyscore(args, function(err, replies) {
+		if (err) throw err;
+		var result = [];
+		var multi = client.multi();
+
+		for (var i = 0; i < replies.length; i++) {
+			result.push(replies[i]);
+			// var itemid = replies[i];
+			// (function(itemid){
+				// result.push(it)
+			// })(itemid);
+
+		}
+		multi.exec(function(err, replies){
+			console.log(JSON.stringify(result))
+			client.quit();
+			return JSON.stringify(result);
+		})
+	});
+}
+
 // Generates N random new items
 Item.prototype.generateRandomItems = function(number_of_new_items){
 	var _this = this;

@@ -44,4 +44,10 @@ program
 		newItem.getTotalNumber();
 	});
 
+program
+	.command('ids')
+	.action(function(){
+		newItem.getValidIds();
+	});
+
 program.parse(process.argv);
