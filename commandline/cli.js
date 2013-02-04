@@ -26,13 +26,22 @@ program
 program
 	.command('newitems <newnum>')
 	.action(function(quantity){
-		newItem.generateRandomItems(quantity);
+		setTimeout(function(){
+			newItem.generateRandomItems(quantity);
+		}, 100);
+		
 	});
 
 program
 	.command('change')
 	.action(function(){
 		newItem.changeInventory2();
+	});
+
+program
+	.command('count')
+	.action(function(){
+		newItem.getTotalNumber();
 	});
 
 program.parse(process.argv);

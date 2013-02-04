@@ -1,6 +1,5 @@
 var redis = require("redis"),
     client = redis.createClient(6379, '127.0.0.1', {return_buffers: false}),
-    pubsub  = redis.createClient(null, null, null),
     _ = require('underscore'),
     util = require('util'),
     socket = require('socket.io'),
@@ -19,7 +18,6 @@ Item = function(){
 	// reload the largest id number so our indexes don't get overwritten
 	client.get("itemid:largest", function(err, res) {
 		if (err) throw err;
-		console.log(res);
 		cur_num_items = res;
 	})
 
@@ -73,8 +71,8 @@ Item.prototype.init = function(){
 	
 	client.flushall(function(err, res){
 		_this.resetLargestItemId();
-		return _this.generateRandomItems(204);
-	});	
+		var json = _this.generateRandomItems(204);
+	});
 }
 
 
@@ -102,6 +100,7 @@ Item.prototype.getItems = function(min, max){
 		}
 		multi.exec(function(err, replies){
 			console.log(JSON.stringify(result))
+			client.quit();
 			return JSON.stringify(result);
 		})
 	});
@@ -135,9 +134,10 @@ Item.prototype.generateRandomItems = function(number_of_new_items){
 		multi2.exec(function(err, replies){
 			if (err) throw err;
 			client.incrby('itemid:largest', replies.length, function(err, res) {
-
+				client.quit();
 			});
 			console.log(JSON.stringify(result_arr));
+			
 			return JSON.stringify(result_arr);
 		});
 	});
@@ -181,16 +181,23 @@ Item.prototype.changeInventory = function(itemids, deltas) {
 	multi.exec(function(err, res) {
 		multi2.exec(function(err, res) {
 			console.log(JSON.stringify(jsonResponse));
-			return JSON.stringify(jsonResponse);		
+			client.quit();
+			return JSON.stringify(jsonResponse);
 		});
 	});
+
+
 }
 
-// init() // generates a list of 100 random items in the redis client -- DONE
-// getItems()  // returns a list of items (see object above) -- DONE (visually)
-// addItem() // - adds a new item to the list (randomly generated for now)
+Item.prototype.getTotalNumber = function() {
+	client.zcard('items', function(err, res) {
+		console.log(res);
+
+	});
+	client.quit();
+}
+
+// TODO:
 // deleteItem(itemId) // deletes the item with the item id
-// addInventory(itemid, num) // add inventory to item by #num
-// decreaseInventory(itemid, num) // decrement inventory to item by #num
 
 module.exports = Item;
