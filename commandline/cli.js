@@ -16,13 +16,17 @@ program
 program
 	.command('init')
 	.action(function(){
-		newItem.init();
+		newItem.init(function(res) {
+			console.log(res);
+		});
 	});
 
 program
 	.command('all')
 	.action(function(){
-		newItem.getItems();
+		newItem.getItems(0, +Infinity, function(res) {
+			console.log(res);
+		});
 	});
 
 program
@@ -43,21 +47,25 @@ program
 program
 	.command('count')
 	.action(function(){
-		newItem.getTotalNumber();
+		newItem.getTotalNumber(function(res) {
+			console.log(res);
+		});
 	});
 
 program
 	.command('ids')
 	.action(function(){
-		newItem.getValidIds();
+		newItem.getValidIds(function(res) {
+			console.log(res);
+		});
 	});
 
 program
 	.command('s')
 	.action(function(){
-		// setTimeout(function(){
-			s.simulate_inventorychange();
-		// }, 100);
+		s.simulate_inventorychange(function(res) {
+			console.log(res);
+		});
 	});
 
 program.parse(process.argv);

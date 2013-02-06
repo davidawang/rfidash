@@ -24,24 +24,16 @@ Simulator.prototype.simulate_inventorychange = function() {
 	var itemids = [];
 	var _this = this;
 
-	var id_array = this.item().getValidIds(0, +Infinity, function(id_array) {
-	
+	this.item().getValidIds(function(id_array) {
+
 		for(var i = 0; i < 10; i++) {
-			console.log(i);
 			itemids.push(id_array[_.random(0, id_array.length - 1)]);
 			deltas.push(allowed_deltas[_.random(0, allowed_deltas.length - 1)]);
 		}
-		console.log(itemids, deltas);
-		_this.item().changeInventory(itemids, deltas);
+		_this.item().changeInventory(itemids, deltas, function(res) {
+			console.log(res);
+		});
 	});
-	
-
-
-
-
-	// console.log(itemids);
-	// console.log(deltas);
-	
 }
 
 

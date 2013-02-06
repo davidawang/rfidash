@@ -5,7 +5,11 @@ var redis = require("redis"),
     socket = require('socket.io'),
     eyes = require('eyes');
 
-
+var handleCallback = function(callback, args) {
+	if (callback) {
+		callback(args);
+	}
+}
 
 Item = function(){
 	var min_num_items = 204;
@@ -38,40 +42,13 @@ Item = function(){
 	}
 }
 
-
-// we don't use this for now since it doesn't support multi.
-// Item.prototype.addItemWithID = function(itemid) {
-// 	var sectionid = this.sections[_.random(0, this.sections.length - 1)];
-// 	var name = faker.random.bs_adjective() + " " + faker.random.bs_noun();
-// 	var typeid = type[_.random(0, type.length - 1)];
-// 	var result = {
-// 		'section': sectionid,
-// 		'name': name,
-// 		'type': typeid,
-// 		'quantity': _.random(20, 100)
-// 	}
-
-
-// 	client.hmset(itemid, "section", sectionid, "name", name, "type", typeid, function(err, res1){
-// 		if (err) throw err;
-
-// 		var args = [ 'items', result.quantity , itemid]; // add a random quantity of items
-// 		client.zadd(args, function (err, res) {
-// 			if (err) throw err;
-
-// 		});
-		
-// 	});
-// 	return result;
-// }
-
 // Generates a random # "min_num_items", clears redis database before doing so
-Item.prototype.init = function(){
+Item.prototype.init = function(callback){
 	var _this = this;
 	
 	client.flushall(function(err, res){
 		_this.resetLargestItemId();
-		var json = _this.generateRandomItems(204);
+		var json = _this.generateRandomItems(204, callback);
 	});
 }
 
@@ -79,7 +56,7 @@ Item.prototype.init = function(){
 // returns
 //		total number of items
 //		json of all items
-Item.prototype.getItems = function(min, max){
+Item.prototype.getItems = function(min, max, callback){
 
 	var args = ['items', max||Infinity, min||-Infinity, 'WITHSCORES'];
 	client.zrevrangebyscore(args, function(err, replies) {
@@ -98,15 +75,13 @@ Item.prototype.getItems = function(min, max){
 			})(itemid, quantity);
 		}
 		multi.exec(function(err, replies){
-			console.log(JSON.stringify(result))
-			// client.quit();
-			return JSON.stringify(result);
+			handleCallback(callback, result);
 		})
 	});
 }
 
-Item.prototype.getValidIds = function(min, max, callback){
-	var args = ['items', max||Infinity, min||-Infinity];
+Item.prototype.getValidIds = function(callback){
+	var args = ['items', Infinity, -Infinity];
 	client.zrevrangebyscore(args, function(err, replies) {
 		if (err) throw err;
 		var result = [];
@@ -114,17 +89,13 @@ Item.prototype.getValidIds = function(min, max, callback){
 		for (var i = 0; i < replies.length; i++) {
 			result.push(replies[i]);
 		}
-		console.log(JSON.stringify(result));
-		// client.quit();
-		if (callback) {
-			callback(result);
-		} else 
-			return JSON.stringify(result);
+
+		handleCallback(callback, result);
 	});
 }
 
 // Generates N random new items
-Item.prototype.generateRandomItems = function(number_of_new_items){
+Item.prototype.generateRandomItems = function(number_of_new_items, callback){
 	var _this = this;
 	var result_arr = [];
 	var multi = client.multi();
@@ -151,11 +122,9 @@ Item.prototype.generateRandomItems = function(number_of_new_items){
 		multi2.exec(function(err, replies){
 			if (err) throw err;
 			client.incrby('itemid:largest', replies.length, function(err, res) {
-				// client.quit();
 			});
-			console.log(JSON.stringify(result_arr));
 			
-			return JSON.stringify(result_arr);
+			handleCallback(callback, result_arr);
 		});
 	});
 }
@@ -197,9 +166,7 @@ Item.prototype.changeInventory = function(itemids, deltas, callback) {
 
 	multi.exec(function(err, res) {
 		multi2.exec(function(err, res) {
-			console.log(JSON.stringify(jsonResponse));
-			// client.quit();
-			return JSON.stringify(jsonResponse);
+			handleCallback(callback, jsonResponse);
 		});
 	});
 
@@ -208,10 +175,14 @@ Item.prototype.changeInventory = function(itemids, deltas, callback) {
 
 Item.prototype.getTotalNumber = function(callback) {
 	client.zcard('items', function(err, res) {
-		return res;
+		if (err) throw err;
+		handleCallback(callback, res);
 	});
-	// client.quit();
 }
+
+Item.prototype.end = function(){
+	client.quit();
+};
 
 // TODO:
 // deleteItem(itemId) // deletes the item with the item id
