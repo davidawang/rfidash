@@ -1,20 +1,54 @@
 var Item = require('./item.js'),
 	eyes = require('eyes'),
-    _ = require('underscore');
+    _ = require('underscore'),
+    io = require('socket.io').listen(8080);
 
-var Simulator = function(){
-	this.item = function() {
-		// if (typeof newItem !== 'undefined') return newItem;
-		// else {
-		// 	var newItem = new Item();
-		// 	return newItem;
-		// }
-		return new Item();
+var inventory = io
+	.of('/items')
+	.on('connection', function(socket) {
+		// new clients will get a copy of all the current items
+		item.getItems(0, +Infinity, function(res){
+			socket.emit('all', JSON.stringify(res));
+		});
+	});
+
+
+var Simulator = function(socketio_instance){
+	var item_instance;
+	var io = socketio_instance;
+
+	this.io = function() {
+		return io;
 	}
+
+	this.item = function() {
+		if (item_instance) {
+			console.log('hi');
+			return item_instance
+		} else {
+			item_instance = new Item();
+			return item_instance;
+		}
+	}
+	this.item();
+}
+
+Simulator.prototype.start = function() {
+	this.item().init(function(res){
+		inventory.emit("init", JSON.stringify(res));
+	});
 }
 
 Simulator.prototype.simulate = function() {
-	var affected_percent = 20;
+	var _this = this;
+
+	// function will only run according to the given probability.
+	var ProcessProbability(prob, fn) {
+		if (_.random(0, 1) <= prob) fn();
+	}
+
+	ProcessProbability(.9, _this.simulate_inventorychange());
+	ProcessProbability(0.25, _this.simulate_newitems(_.random(10, 20)));
 }
 
 
@@ -31,11 +65,19 @@ Simulator.prototype.simulate_inventorychange = function() {
 			deltas.push(allowed_deltas[_.random(0, allowed_deltas.length - 1)]);
 		}
 		_this.item().changeInventory(itemids, deltas, function(res) {
-			console.log(res);
+			inventory.emit("change", JSON.stringify(res));
 		});
 	});
 }
 
+Simulator.prototype.simulate_newitems = function(number_of_items) {
+	var boom = this.item();
+	setTimeout(function() {
+		boom.generateRandomItems(number_of_items, function(res) {
+			inventory.emit("new", JSON.stringify(res));
+		});
+	}, 100);
+}
 
 	// each time it should randomly simulate between 
 
@@ -50,6 +92,8 @@ Simulator.prototype.simulate_inventorychange = function() {
 //			call new Item.init()
 
 
-
+Simulator.prototype.end = function(){
+	this.item().end();
+}
 
 module.exports = Simulator;

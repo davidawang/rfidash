@@ -33,7 +33,9 @@ program
 	.command('newitems <newnum>')
 	.action(function(quantity){
 		setTimeout(function(){
-			newItem.generateRandomItems(quantity);
+			newItem.generateRandomItems(quantity, function(res){
+				console.log(res);
+			});
 		}, 100);
 		
 	});
@@ -61,11 +63,20 @@ program
 	});
 
 program
-	.command('s')
+	.command('si')
 	.action(function(){
 		s.simulate_inventorychange(function(res) {
 			console.log(res);
 		});
 	});
+
+program
+	.command('sn')
+	.action(function(){
+		s.simulate_newitems(10, function(res) {
+			console.log(res);
+		});
+	});
+	
 
 program.parse(process.argv);

@@ -2,7 +2,6 @@ var redis = require("redis"),
     client = redis.createClient(6379, '127.0.0.1', {return_buffers: false}),
     _ = require('underscore'),
     util = require('util'),
-    socket = require('socket.io'),
     eyes = require('eyes');
 
 var handleCallback = function(callback, args) {
