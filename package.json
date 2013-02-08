@@ -1,9 +1,0 @@
-{
-  "name": "RFID Dashboard",
-  "version": "0.0.1",
-  "devDependencies": {
-    "grunt": "~0.3.17",
-    "grunt-contrib-jshint": "~0.1.0",
-    "grunt-contrib-nodeunit": "~0.1.0"
-  }
-}
