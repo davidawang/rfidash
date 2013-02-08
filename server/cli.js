@@ -1,8 +1,5 @@
-#!/usr/bin/env node
-
-/**
- * Module dependencies.
- */
+// Used to test simulator.js & app.js
+// TODO: add tests
 
 var program = require('commander');
 var item = require('./item.js');

@@ -45,26 +45,31 @@
   background-image: linear-gradient(top, #ffffff 0%, #f2f2f2 100%);
   border-bottom: 1px solid gainsboro;
 }
-/* line 32, ../sass/_common.sass */
+/* line 34, ../sass/_common.sass */
 #tab-bar ul li {
   display: inline-block;
   background-color: #d0d0d0;
+  background-color: #e5e5e8;
   *zoom: 1;
-  filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#FFD0D0D0', endColorstr='#FFE6E6E6');
+  filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#FFE5E5E8', endColorstr='#FFD1D1D5');
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #d0d0d0), color-stop(1%, #ffffff), color-stop(100%, #e6e6e6));
   background-image: -webkit-linear-gradient(top, #d0d0d0 0%, #ffffff 1%, #e6e6e6 100%);
   background-image: -moz-linear-gradient(top, #d0d0d0 0%, #ffffff 1%, #e6e6e6 100%);
   background-image: -o-linear-gradient(top, #d0d0d0 0%, #ffffff 1%, #e6e6e6 100%);
   background-image: linear-gradient(top, #d0d0d0 0%, #ffffff 1%, #e6e6e6 100%);
   box-sizing: border-box;
-  width: 40px;
-  height: 40px;
+  width: 127px;
+  height: 28px;
   margin: 5px;
-  border-radius: 8px;
+  border-radius: 5px;
   overflow: hidden;
   border: 1px solid #d2d2d2;
+  -webkit-box-shadow: 0px 1px 1px rgba(100, 100, 100, 0.5);
+  -moz-box-shadow: 0px 1px 1px rgba(100, 100, 100, 0.5);
+  box-shadow: 0px 1px 1px rgba(100, 100, 100, 0.5);
+  padding: 11px 14px;
 }
-/* line 46, ../sass/_common.sass */
+/* line 56, ../sass/_common.sass */
 #tab-bar ul li:active, #tab-bar ul li:hover {
   background: #e6e6e6;
   -webkit-box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -72,23 +77,24 @@
   box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-/* line 50, ../sass/_common.sass */
+/* line 60, ../sass/_common.sass */
 #content-window {
   height: 400px;
   background: white;
+  padding: 0;
 }
 
-/* line 54, ../sass/_common.sass */
+/* line 65, ../sass/_common.sass */
 #sidebar {
   height: 400px;
   background: #edeff2;
 }
 
-/* line 58, ../sass/_common.sass */
+/* line 69, ../sass/_common.sass */
 div#account-dropdown {
   margin-top: 30px;
 }
-/* line 60, ../sass/_common.sass */
+/* line 71, ../sass/_common.sass */
 div#account-dropdown a {
   line-height: 14pt;
   width: 100%;
@@ -97,17 +103,17 @@ div#account-dropdown a {
   color: #969696;
   display: block;
 }
-/* line 68, ../sass/_common.sass */
+/* line 79, ../sass/_common.sass */
 div#account-dropdown a img {
   margin-right: 10px;
   float: left;
 }
-/* line 72, ../sass/_common.sass */
+/* line 83, ../sass/_common.sass */
 div#account-dropdown a small {
   margin-left: 5px;
   line-height: 11pt;
 }
-/* line 76, ../sass/_common.sass */
+/* line 87, ../sass/_common.sass */
 div#account-dropdown:hover > a {
   -webkit-box-shadow: rgba(150, 150, 150, 0.5) 0px 0px 9px;
   -moz-box-shadow: rgba(150, 150, 150, 0.5) 0px 0px 9px;
@@ -119,12 +125,12 @@ div#account-dropdown:hover > a {
   border-right: 1px solid #c8c8c8;
   border-left: 1px solid #c8c8c8;
 }
-/* line 85, ../sass/_common.sass */
+/* line 96, ../sass/_common.sass */
 div#account-dropdown:hover #account-dropdown-sub {
   display: block;
 }
 
-/* line 88, ../sass/_common.sass */
+/* line 99, ../sass/_common.sass */
 #account-dropdown-sub {
   display: none;
   -webkit-box-shadow: rgba(150, 150, 150, 0.5) 0px 3px 5px;
@@ -140,7 +146,7 @@ div#account-dropdown:hover #account-dropdown-sub {
   background: white;
   border: 1px solid #dadada;
 }
-/* line 101, ../sass/_common.sass */
+/* line 112, ../sass/_common.sass */
 #account-dropdown-sub ul li a {
   width: 100%;
   font-size: 10pt;
@@ -149,32 +155,37 @@ div#account-dropdown:hover #account-dropdown-sub {
   color: #323232;
   border-bottom: 1px solid #f0f0f0;
 }
-/* line 108, ../sass/_common.sass */
+/* line 119, ../sass/_common.sass */
 #account-dropdown-sub ul li a img {
   float: left;
   margin-right: 10px;
   margin-top: 2px;
 }
-/* line 112, ../sass/_common.sass */
+/* line 123, ../sass/_common.sass */
 #account-dropdown-sub ul {
   width: 100%;
 }
 
 /* line 2, ../sass/itemview.sass */
 #item-search-form input {
-  box-shadow: inset 0px 0px 7px rgba(150, 150, 150, 0.5);
+  box-shadow: inset 0px 0px 4px rgba(150, 150, 150, 0.5);
   border: none;
+  background: url(/img/search.png) no-repeat 10px 10px;
+  padding-left: 28px;
+  background-size: 11px;
 }
-/* line 5, ../sass/itemview.sass */
+/* line 8, ../sass/itemview.sass */
 #item-search-form input::-webkit-input-placeholder {
-  color: #c8c8c8;
+  color: rgba(0, 0, 0, 0.3);
+  font-weight: 100;
+  font-size: 10pt;
 }
-/* line 7, ../sass/itemview.sass */
+/* line 12, ../sass/itemview.sass */
 #item-search-form input:focus {
   outline: none;
 }
 
-/* line 10, ../sass/itemview.sass */
+/* line 15, ../sass/itemview.sass */
 #item-column-titles {
   border-top: 1px solid #c8c8c8;
   border-bottom: 1px solid #c8c8c8;
@@ -184,7 +195,7 @@ div#account-dropdown:hover #account-dropdown-sub {
   font-size: 9pt;
   color: #c8c8c8;
 }
-/* line 19, ../sass/itemview.sass */
+/* line 24, ../sass/itemview.sass */
 #item-column-titles span {
   padding: 0px 5px;
 }
