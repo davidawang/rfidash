@@ -1,7 +1,8 @@
 var Item = require('./item.js'),
 	eyes = require('eyes'),
     _ = require('underscore'),
-    io = require('socket.io').listen(8080);
+    item = new Item();
+    io = require('socket.io').listen(80);
 
 var inventory = io
 	.of('/items')
@@ -13,28 +14,22 @@ var inventory = io
 	});
 
 
-var Simulator = function(socketio_instance){
-	var item_instance;
-	var io = socketio_instance;
 
-	this.io = function() {
-		return io;
+// function will only run according to the given probability.
+var ProcessProbability = function(prob, fn) {
+	if (_.random(0, 1) <= prob) {
+		fn;
 	}
+}
 
-	this.item = function() {
-		if (item_instance) {
-			console.log('hi');
-			return item_instance
-		} else {
-			item_instance = new Item();
-			return item_instance;
-		}
-	}
-	this.item();
+
+
+var Simulator = function(){
+
 }
 
 Simulator.prototype.start = function() {
-	this.item().init(function(res){
+	item.init(function(res){
 		inventory.emit("init", JSON.stringify(res));
 	});
 }
@@ -42,13 +37,8 @@ Simulator.prototype.start = function() {
 Simulator.prototype.simulate = function() {
 	var _this = this;
 
-	// function will only run according to the given probability.
-	var ProcessProbability(prob, fn) {
-		if (_.random(0, 1) <= prob) fn();
-	}
-
-	ProcessProbability(.9, _this.simulate_inventorychange());
-	ProcessProbability(0.25, _this.simulate_newitems(_.random(10, 20)));
+	ProcessProbability(.1, _this.simulate_inventorychange());
+	ProcessProbability(.1, _this.simulate_newitems(_.random(10, 20)));
 }
 
 
@@ -58,25 +48,22 @@ Simulator.prototype.simulate_inventorychange = function() {
 	var itemids = [];
 	var _this = this;
 
-	this.item().getValidIds(function(id_array) {
+	item.getValidIds(function(id_array) {
 
 		for(var i = 0; i < 10; i++) {
 			itemids.push(id_array[_.random(0, id_array.length - 1)]);
 			deltas.push(allowed_deltas[_.random(0, allowed_deltas.length - 1)]);
 		}
-		_this.item().changeInventory(itemids, deltas, function(res) {
+		item.changeInventory(itemids, deltas, function(res) {
 			inventory.emit("change", JSON.stringify(res));
 		});
 	});
 }
 
 Simulator.prototype.simulate_newitems = function(number_of_items) {
-	var boom = this.item();
-	setTimeout(function() {
-		boom.generateRandomItems(number_of_items, function(res) {
-			inventory.emit("new", JSON.stringify(res));
-		});
-	}, 100);
+	item.generateRandomItems(number_of_items, function(res) {
+		inventory.emit("new", JSON.stringify(res));
+	});
 }
 
 	// each time it should randomly simulate between 
@@ -93,7 +80,7 @@ Simulator.prototype.simulate_newitems = function(number_of_items) {
 
 
 Simulator.prototype.end = function(){
-	this.item().end();
+	item.end();
 }
 
 module.exports = Simulator;

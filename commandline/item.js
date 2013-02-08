@@ -148,7 +148,6 @@ Item.prototype.changeInventory = function(itemids, deltas, callback) {
 				var newQuantity = parseFloat(res);
 
 				if (newQuantity < 0) { // if inventory < 0, set it back to 0
-					console.log("quantity less than zero!");
 					var args = ['items', 0, itemids[i]];
 					multi2.zadd(args, function (err, res) {
 						if (err) throw err;
