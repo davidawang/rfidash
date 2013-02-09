@@ -12,10 +12,10 @@ var handleCallback = function(callback, args) {
 
 Item = function(){
 	var min_num_items = 204;
-	var sections = ["M", "W", "b", "g", "k"];
+	var sections = ["mens", "womens", "boy", "girl", "children", "teen"];
 	var brands = ["Adidas", "Armani", "Gap", "Macys", "Guess", "Diesel", "Dockers", "JCrew", "Kenneth Cole", "Lacoste", "Ralpha Lauren Polo", "Nike", "Tommy Hilfiger"];
 	var clothings = ["pants", "jeans", "sweather", "peacoat", "shoes", "socks", "undergarments", "vest", "turtleneck", "trench coat", "gloves"];
-	var type = ["m", "w", "c"];
+	var type = ["M", "S", "XS", "L", "XL", "XXL"];
 	var cur_num_items = 0;
 	
 	// reload the largest id number so our indexes don't get overwritten
