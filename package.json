@@ -1,0 +1,26 @@
+{
+  "name": "rfidash",
+  "version": "0.0.0",
+  "description": "RFID inventory simulator",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/davidawang/rfidash.git"
+  },
+  "author": "dwang",
+  "license": "BSD",
+  "readmeFilename": "README.md",
+  "gitHead": "95929bfc5ac7e60b6c27e1aad42ec0a8fb71670c",
+  "dependencies": {
+    "express": "~3.1.0",
+    "redis": "~0.8.2",
+    "hiredis": "~0.1.14",
+    "cron": "~1.0.1",
+    "underscore": "~1.4.4",
+    "eyes": "~0.1.8",
+    "socket.io": "~0.9.13"
+  }
+}

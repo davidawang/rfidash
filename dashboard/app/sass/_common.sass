@@ -1,0 +1,127 @@
+// Main Styles
+@import compass/css3
+
+#logo
+	color: rgb(14, 148, 236)
+	margin: 25px 0 0 0
+
+#application
+	background-image: url("../img/debut_light/debut_light.png")
+	height: 100%
+	font-family: HelveticaNeue, Helvetica
+
+
+#header, #footer, #main-app
+	margin: 0 auto
+
+#main-app
+	+box-shadow(rgba(150, 150, 150, 0.50) 0px 3px 4px)
+	border: 1px solid rgb(220, 220, 220)
+	border-top-left-radius: 8px
+	border-top-right-radius: 8px
+
+#tab-bar
+	border-top-right-radius: 8px
+	border-top-left-radius: 8px
+	height: 50px
+	background-color: rgb(255,255,255)
+
+
+	@include filter-gradient(#ffffff, #f2f2f2, vertical)
+	@include background-image(linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(242,242,242,1) 100%)) 
+	border-bottom: 1px solid rgb(220, 220, 220)
+
+	ul li
+		display: inline-block
+		background-color: rgb(208,208,208)
+		background-color: rgb(229,229,232)
+		@include filter-gradient(#e5e5e8, #d1d1d5, vertical)
+		//@include background-image(linear-gradient(top, rgba(229,229,232,1) 0%,rgba(255,255,255,1) 2%,rgba(255,255,255,1) 4%,rgba(249,249,249,1) 6%,rgba(226,226,227,1) 62%,rgba(220,220,221,1) 94%,rgba(229,229,229,1) 98%,rgba(209,209,213,1) 100%))
+
+
+
+		//@include filter-gradient(#d0d0d0, #e6e6e6, vertical)
+		@include background-image(linear-gradient(top,  rgb(208,208,208) 0%,rgb(255,255,255) 1%,rgb(230,230,230) 100%))
+
+		box-sizing: border-box
+		width: 127px
+		height: 28px
+		margin: 5px
+		border-radius: 5px
+		overflow: hidden
+		border: 1px solid rgb(210, 210, 210)
+		+box-shadow(0px 1px 1px rgba(100, 100, 100, 0.5))
+		padding: 11px 14px
+
+		&:active, &:hover
+			background: rgb(230, 230, 230)
+			+box-shadow(inset 0 2px 5px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05))
+
+#content-window
+	height: 400px
+	background: white
+	padding: 0
+
+#sidebar
+	height: 400px
+	background: rgb(237, 239, 242)
+
+div#account-dropdown
+	margin-top: 30px
+	a
+		line-height: 14pt
+		width: 100%
+		font-size: 10pt
+		padding: 11px 10px
+		color: rgb(150, 150, 150)
+		display: block
+
+		img
+			margin-right: 10px
+			float: left
+		
+		small
+			margin-left: 5px
+			line-height: 11pt
+
+	&:hover>a
+		+box-shadow(rgba(150, 150, 150, 0.50) 0px 0px 9px)
+		opacity: 0.7
+		background: white
+		border-top-left-radius: 10px
+		border-top-right-radius: 10px
+		border-right: 1px solid rgb(200, 200, 200)
+		border-left: 1px solid rgb(200, 200, 200)
+
+	&:hover #account-dropdown-sub
+		display: block
+
+#account-dropdown-sub
+	display: none
+	+box-shadow(rgba(150, 150, 150, 0.50) 0px 3px 5px)
+	width: 137px
+	top: 26px
+	position: absolute
+	z-index: 100
+	margin: 12px 0px
+	border-bottom-left-radius: 8px
+	border-bottom-right-radius: 8px
+	background: white
+	border: 1px solid rgb(218, 218, 218)
+
+	ul li a
+		width: 100%
+		font-size: 10pt
+		padding: 5px 10px
+		font-weight: 600
+		color: rgb(50, 50, 50)
+		border-bottom: 1px solid rgb(240, 240, 240)
+		img
+			float: left
+			margin-right: 10px
+			margin-top: 2px
+	ul
+		width: 100%
+
+
+    

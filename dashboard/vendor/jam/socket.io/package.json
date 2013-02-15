@@ -1,0 +1,7 @@
+{
+    "name": "socket.io",
+    "version": "0.9.6-jam.1",
+    "description": "Socket.IO aims to make realtime apps possible in every browser and mobile device, blurring the differences between the different transport mechanisms. It's care-free realtime 100% in JavaScript.",
+    "homepage": "http://socket.io/",
+    "main": "socket.io.js"
+}

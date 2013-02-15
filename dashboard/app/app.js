@@ -1,12 +1,16 @@
 define([
+  "handlebars",
   "backbone.layoutmanager"
-], function() {
+
+], function(Handlebars) {
 
   // Provide a global location to place configuration settings and module
   // creation.
   var app = {
     // The root path to run the application.
-    root: "/"
+    root: "/",
+    SOCKET_URL: "http://127.0.0.1:80",
+    vent: _.extend({}, Backbone.Events),
   };
 
   // Localize or create a new JavaScript Template object.
@@ -20,21 +24,29 @@ define([
     prefix: "app/templates/",
 
     fetch: function(path) {
-      // Concatenate the file extension.
+      var done;
+
+      // Add the html extension.
       path = path + ".html";
 
-      // If cached, use the compiled template.
-      if (JST[path]) {
-        return JST[path];
+      // If the template has not been loaded yet, then load.
+      if (!JST[path]) {
+        done = this.async();
+        return $.ajax({ url: app.root + path }).then(function(contents) {
+          JST[path] = Handlebars.compile(contents);
+          JST[path].__compiled__ = true;
+
+          done(JST[path]);
+        });
       }
 
-      // Put fetch into `async-mode`.
-      var done = this.async();
-
-      // Seek out the template asynchronously.
-      $.get(app.root + path, function(contents) {
-        done(JST[path] = _.template(contents));
-      });
+      // If the template hasn't been compiled yet, then compile.
+      if (!JST[path].__compiled__) {
+        JST[path] = Handlebars.template(JST[path]);
+        JST[path].__compiled__ = true;
+      }
+      
+      return JST[path];
     }
   });
 

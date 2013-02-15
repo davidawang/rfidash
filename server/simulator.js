@@ -38,7 +38,7 @@ Simulator.prototype.simulate = function() {
 	var _this = this;
 
 	ProcessProbability(.1, _this.simulate_inventorychange());
-	ProcessProbability(.1, _this.simulate_newitems(_.random(10, 20)));
+	// ProcessProbability(.1, _this.simulate_newitems(_.random(10, 20)));
 }
 
 
