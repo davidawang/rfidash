@@ -36,32 +36,37 @@
   padding: 0px 5px;
 }
 
-/* line 29, ../sass/itemview.sass */
+/* line 28, ../sass/itemview.sass */
+.inventory-list {
+  overflow: scroll;
+  height: 370px;
+}
+/* line 31, ../sass/itemview.sass */
 .inventory-list a {
   display: block;
   font-size: 10pt;
   padding: 7px 10px;
   border-bottom: 1px solid #c8c8c8;
 }
-/* line 34, ../sass/itemview.sass */
+/* line 36, ../sass/itemview.sass */
 .inventory-list .basic-description {
   color: #646464;
 }
-/* line 36, ../sass/itemview.sass */
+/* line 38, ../sass/itemview.sass */
 .inventory-list .basic-description em {
   color: #0e94ec;
   font-style: normal;
   font-weight: bold;
 }
-/* line 40, ../sass/itemview.sass */
+/* line 42, ../sass/itemview.sass */
 .inventory-list .section {
   color: #c8c8c8;
 }
-/* line 42, ../sass/itemview.sass */
+/* line 44, ../sass/itemview.sass */
 .inventory-list .size {
   color: #c8c8c8;
 }
-/* line 44, ../sass/itemview.sass */
+/* line 46, ../sass/itemview.sass */
 .inventory-list .quantity, .inventory-list .arrrow {
   float: right;
 }

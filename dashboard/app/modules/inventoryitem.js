@@ -16,12 +16,14 @@ function(app) {
 			"type": null,
 			"quantity": null
 		},
-
-
 	});
 
 	InventoryItem.Collection = Backbone.Collection.extend({
-		model: InventoryItem.Model
+		model: InventoryItem.Model,
+		comparator: function(item) {
+			return parseInt(item.get("quantity"));
+		}
+
 	});
 
 	InventoryItem.Views.Item = Backbone.View.extend({
@@ -30,7 +32,9 @@ function(app) {
 		tagName: "a href='#'",
 
 		initialize: function () {
-			this.listenTo(this.model, "change", function(d) {
+			var _this = this;
+			this.listenTo(this.model, "all", function(d) {
+				console.log(d);
 				this.render();
 			});
 		},
@@ -40,37 +44,77 @@ function(app) {
 		},
 	});
 
+
+
+	InventoryItem.Views.Search = Backbone.View.extend({
+		template: "inventoryitem/search",
+
+		events: {
+			"keyup #item-search-form": "itemSearch",
+		},
+
+
+		itemSearch: function(evt){
+			var terms = $(evt.target).val();
+			app.vent.trigger("item:search", terms);
+		}
+	});
+
 	InventoryItem.Views.List = Backbone.View.extend({
 		template: "inventoryitem/list",
 
-		events: {
-
-		},
-
 		initialize: function() {
-			var ii = this.options.items;
-			ii.comparator = this.comparator;
-			// var _this = this;
+			var _this = this;
+
+			this.collection = new InventoryItem.Collection();
+			this.filtered = new InventoryItem.Collection();
 
 			this.listenTo(app.vent, {
 				"socket:items:change": function(data) {
 					console.log(data);
-					ii.update($.parseJSON(data), {add: false, remove: false});
-					ii.sort();
+					this.collection.update($.parseJSON(data), {add: false, remove: false});
+					this.collection.sort();
 				},
 
 				"socket:items:new": function(data) {
 					console.log(data);
-					ii.reset($.parseJSON(data));
-					ii.sort();
+					this.collection.add($.parseJSON(data));
+					this.collection.sort();
+				},
+
+				"item:search": function(data) {
+					this.filterResults(data);
 				}
 			});
 
-			this.listenTo(this.options.items, {
-				"reset": this.render,
-				"sort": this.render
+
+			// TODO: check out rivet.js
+			this.listenTo(this.collection, {
+				"reset": this.filterResults,
+				"sort": this.filterResults
 			});
 
+			this.listenTo(this.filtered, {
+				"all": this.render
+			});
+
+		},
+
+		// filters by both itemid or item name
+		filterResults: function(terms) {
+			var searchterm = _.isObject(terms) ? this.cachedsearch || "" : terms;
+
+			var pattern = new RegExp(searchterm,"gi");
+			var filteredItems = this.collection.filter(function(item) {
+				return pattern.test(item.get("name")) || pattern.test(item.get("itemid"));
+			});
+
+			// don't rerender if search term was the same
+			if (!this.cachedsearch || this.cachedsearch !== searchterm) {
+				(searchterm.length > 0) ? this.filtered.reset(filteredItems) : this.filtered.reset(this.collection.toJSON());
+				this.cachedsearch = searchterm;
+			}
+			
 		},
 
 		limit: function(collection, n) {
@@ -78,25 +122,33 @@ function(app) {
 		},
 
 		serialize: function() {
-			// debugger;
-			return { collection: this.options.items };
+			return { collection: this.filtered };
 		},
 
+		// Don't render thousands of items...
 		beforeRender: function() {
-			// hi.sort();
-			this.limit(this.options.items, 13).each(function(item) {
+			this.limit(this.filtered, 20).each(function(item) {
 				this.insertView(".inventory-list", new InventoryItem.Views.Item({
 					model: item
 				}));
 			}, this);
 		},
 
-		comparator: function(item) {
-			return parseInt(item.get("quantity"));
-		}
 
 		// TODO: stop listening when view is cleaned up.
 
+	});
+
+	InventoryItem.Views.ListView = Backbone.Layout.extend({
+		template: "layouts/listview",
+		manage: true,
+		initialize: function() {
+			// debugger
+		},
+		views: {
+			"#inventoryitem-search": new InventoryItem.Views.Search(),
+			"#inventoryitem-results": new InventoryItem.Views.List()
+		}
 	});
 
 	return InventoryItem;

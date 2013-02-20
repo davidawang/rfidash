@@ -18,7 +18,8 @@ function(app, InventoryItem) {
       _.extend(this, collections);
 
       app.useLayout("layouts/main").setViews({
-        "#content-window": new InventoryItem.Views.List(collections)
+        
+        "#content-window": new InventoryItem.Views.ListView(collections)
       }).render();
 
     },
@@ -28,7 +29,7 @@ function(app, InventoryItem) {
     },
 
     index: function() {
-      this.reset();
+      // this.reset();
     },
 
     listview: function() {
