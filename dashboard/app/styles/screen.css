@@ -217,24 +217,38 @@ div#account-dropdown:hover #account-dropdown-sub {
   border-bottom: 1px solid #c8c8c8;
 }
 /* line 36, ../sass/itemview.sass */
-.inventory-list .basic-description {
+.inventory-list a .basic-description {
   color: #646464;
 }
 /* line 38, ../sass/itemview.sass */
-.inventory-list .basic-description em {
+.inventory-list a .basic-description em {
   color: #0e94ec;
   font-style: normal;
   font-weight: bold;
 }
 /* line 42, ../sass/itemview.sass */
-.inventory-list .section {
+.inventory-list a .section {
   color: #c8c8c8;
 }
 /* line 44, ../sass/itemview.sass */
-.inventory-list .size {
+.inventory-list a .size {
   color: #c8c8c8;
 }
 /* line 46, ../sass/itemview.sass */
-.inventory-list .quantity, .inventory-list .arrrow {
+.inventory-list a .quantity, .inventory-list a .arrrow {
   float: right;
+}
+
+/* line 49, ../sass/itemview.sass */
+.flash {
+  background-color: yellow;
+}
+
+/* line 52, ../sass/itemview.sass */
+.unflash {
+  background-color: white;
+  -webkit-transition: background-color 1s ease-out;
+  -moz-transition: background-color 1s ease-out;
+  -o-transition: background-color 1s ease-out;
+  transition: background-color 1s ease-out;
 }

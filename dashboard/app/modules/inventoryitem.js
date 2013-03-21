@@ -14,9 +14,15 @@ function(app) {
 			"name": null,
 			"section": null,
 			"type": null,
-			"quantity": null
+			"quantity": null,
+			"threshold": {
+				"low": [0, 10],
+				"okay": [11, 20],
+				"good": [21, Infinity]
+			}
 		},
 	});
+
 
 	InventoryItem.Collection = Backbone.Collection.extend({
 		model: InventoryItem.Model,
@@ -32,33 +38,25 @@ function(app) {
 		tagName: "a href='#'",
 
 		initialize: function () {
-			// console.log("wtf is this");
-			var _this = this;
-			// debugger;
-			this.listenTo(this.model, "change:quantity", function(d) {
-				console.log(d);
-				this.render().done(function(){
-					_this.flash();
-					// debugger
-					console.log("changed");
-				});
-			});
 		},
 
 		flash: function(){
-			// debugger
 			var _this = this;
-			this.$el.css("background-color", "yellow");
-			// setTimeout(function() {
-				// _this.$el.css("background-color", "white");
-			// }, 1000);
-			
-		
+			this.$el.addClass('flash').removeClass('unflash');
+			setTimeout(function() {
+				_this.$el.addClass('unflash').removeClass('flash');
+			}, 100);
+		},
+
+		afterRender: function() {
+			if (!_.isEmpty(this.model.changedAttributes())) {
+				this.flash();	
+			} 
 		},
 	
 		serialize: function() {
 			return this.model.toJSON();
-		},
+		}
 	});
 
 
@@ -69,7 +67,6 @@ function(app) {
 		events: {
 			"keyup #item-search-form": "itemSearch",
 		},
-
 
 		itemSearch: function(evt){
 			var terms = $(evt.target).val();
@@ -90,13 +87,13 @@ function(app) {
 				"socket:items:change": function(data) {
 					console.log(data);
 					this.collection.set($.parseJSON(data), {add: false, remove: false});
-					this.collection.sort();
+					// this.collection.sort();
 				},
 
 				"socket:items:new": function(data) {
 					console.log(data);
 					this.collection.add($.parseJSON(data));
-					this.collection.sort();
+					// this.collection.sort();
 				},
 
 				"item:search": function(data) {
@@ -128,14 +125,15 @@ function(app) {
 
 			// don't rerender if search term was the same
 			if (!this.cachedsearch || this.cachedsearch !== searchterm) {
-				(searchterm.length > 0) ? this.filtered.reset(filteredItems) : this.filtered.reset(this.collection.toJSON());
+				(searchterm.length > 0) ? this.filtered.set(filteredItems) : this.filtered.set(this.collection.toJSON());
 				this.cachedsearch = searchterm;
 			}
 			
 		},
 
 		limit: function(collection, n) {
-			return new InventoryItem.Collection(collection.first(n));
+			// return new InventoryItem.Collection(collection.first(5));
+			return collection;
 		},
 
 		serialize: function() {
@@ -144,7 +142,8 @@ function(app) {
 
 		// Don't render thousands of items...
 		beforeRender: function() {
-			this.limit(this.filtered, 20).each(function(item) {
+			// this.limit(this.filtered, 20).each(function(item) {
+			this.filtered.each(function(item) {
 				this.insertView(".inventory-list", new InventoryItem.Views.Item({
 					model: item
 				}));
@@ -160,7 +159,6 @@ function(app) {
 		template: "layouts/listview",
 		manage: true,
 		initialize: function() {
-			// debugger
 		},
 		views: {
 			"#inventoryitem-search": new InventoryItem.Views.Search(),

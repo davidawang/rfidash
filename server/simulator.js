@@ -50,7 +50,7 @@ Simulator.prototype.simulate_inventorychange = function() {
 
 	item.getValidIds(function(id_array) {
 
-		for(var i = 0; i < 10; i++) {
+		for(var i = 0; i < 3; i++) {
 			itemids.push(id_array[_.random(0, id_array.length - 1)]);
 			deltas.push(allowed_deltas[_.random(0, allowed_deltas.length - 1)]);
 		}
