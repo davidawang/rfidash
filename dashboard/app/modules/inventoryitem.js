@@ -32,13 +32,30 @@ function(app) {
 		tagName: "a href='#'",
 
 		initialize: function () {
+			// console.log("wtf is this");
 			var _this = this;
-			this.listenTo(this.model, "all", function(d) {
+			// debugger;
+			this.listenTo(this.model, "change:quantity", function(d) {
 				console.log(d);
-				this.render();
+				this.render().done(function(){
+					_this.flash();
+					// debugger
+					console.log("changed");
+				});
 			});
 		},
 
+		flash: function(){
+			// debugger
+			var _this = this;
+			this.$el.css("background-color", "yellow");
+			// setTimeout(function() {
+				// _this.$el.css("background-color", "white");
+			// }, 1000);
+			
+		
+		},
+	
 		serialize: function() {
 			return this.model.toJSON();
 		},
@@ -72,7 +89,7 @@ function(app) {
 			this.listenTo(app.vent, {
 				"socket:items:change": function(data) {
 					console.log(data);
-					this.collection.update($.parseJSON(data), {add: false, remove: false});
+					this.collection.set($.parseJSON(data), {add: false, remove: false});
 					this.collection.sort();
 				},
 

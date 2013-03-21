@@ -1,28 +1,15 @@
 rfidash
 =======
 
-## Timeline:
-- 1/13 Create command line tool that mimics all the commands to interface the redis client.
-- 1/16 turn these into background tasks, which are run every minute
-- 1/16 make socket.io work with this
-- 1/17 setup backbone
-- 1/18 make socket.io work with backbone
-- 1/19 fix animations, etc...
-- 1/20 should be mostly done by now, just perfect stuff on the frontend
+
 
 
 ## Sample JSON:
 
 
 ```
-Item Object - 
-{
-	itemID: <number>,
-	quantity: <number>,
-	sectionID: <number>,
-	name: <string>,
-	modifier: [list(<modifier id>)],
-}
+{"section":"boy","name":"Adidas undergarments","type":"XXL","quantity":23,"itemid":10}
+
 ```
 
 # Server:
@@ -46,27 +33,3 @@ addInventory(itemid, num) // add inventory to item by #num
 decreaseInventory(itemid, num) // decrement inventory to item by #num
 ```
 
-## Data structures in redis
-
-```
-Keys:
-	- itemid:[itemid]
-	- sectionid:[sectiontype]
-	- modifierid:[modifiertype]
-
-Hashes:
-	- HMSET itemid:[itemid] sectionid [sectionid] name [name string here] type [modifier type here]
-
-Sorted set: (this is the main thing that we care about, at least for v1)
-	- [itemid key here] [quantity]
-
-```
-
-
-
-
-
-
-
-## PUB SUB
- for now will contain all items, ideally later it will have it sorted by different categories or different notification levels.

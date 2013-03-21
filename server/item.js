@@ -47,7 +47,7 @@ Item.prototype.init = function(callback){
 	
 	client.flushall(function(err, res){
 		_this.resetLargestItemId();
-		var json = _this.generateRandomItems(204, callback);
+		var json = _this.generateRandomItems(10, callback);
 	});
 }
 
