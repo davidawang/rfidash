@@ -166,11 +166,11 @@ div#account-dropdown:hover #account-dropdown-sub {
   width: 100%;
 }
 
-/* line 1, ../sass/itemview.sass */
+/* line 4, ../sass/itemview.sass */
 #item-search-form {
   margin-bottom: -12px;
 }
-/* line 3, ../sass/itemview.sass */
+/* line 6, ../sass/itemview.sass */
 #item-search-form input {
   box-shadow: inset 0px 0px 4px rgba(150, 150, 150, 0.5);
   border: none;
@@ -178,18 +178,18 @@ div#account-dropdown:hover #account-dropdown-sub {
   padding-left: 28px;
   background-size: 11px;
 }
-/* line 9, ../sass/itemview.sass */
+/* line 12, ../sass/itemview.sass */
 #item-search-form input::-webkit-input-placeholder {
   color: rgba(0, 0, 0, 0.3);
   font-weight: 100;
   font-size: 10pt;
 }
-/* line 13, ../sass/itemview.sass */
+/* line 16, ../sass/itemview.sass */
 #item-search-form input:focus {
   outline: none;
 }
 
-/* line 16, ../sass/itemview.sass */
+/* line 19, ../sass/itemview.sass */
 #item-column-titles {
   border-top: 1px solid #c8c8c8;
   border-bottom: 1px solid #c8c8c8;
@@ -199,52 +199,86 @@ div#account-dropdown:hover #account-dropdown-sub {
   font-size: 9pt;
   color: #c8c8c8;
 }
-/* line 25, ../sass/itemview.sass */
+/* line 28, ../sass/itemview.sass */
 #item-column-titles span {
   padding: 0px 5px;
 }
 
-/* line 28, ../sass/itemview.sass */
+/* line 31, ../sass/itemview.sass */
 .inventory-list {
-  overflow: scroll;
+  overflow: auto;
   height: 370px;
 }
-/* line 31, ../sass/itemview.sass */
+/* line 34, ../sass/itemview.sass */
 .inventory-list a {
+  background-image: url("../img/tag.svg");
+  background-repeat: no-repeat;
+  background-size: 15px 15px;
+  background-position: 7px 6px;
   display: block;
   font-size: 10pt;
   padding: 7px 10px;
   border-bottom: 1px solid #c8c8c8;
 }
-/* line 36, ../sass/itemview.sass */
+/* line 43, ../sass/itemview.sass */
 .inventory-list a .basic-description {
+  margin-left: 17px;
   color: #646464;
 }
-/* line 38, ../sass/itemview.sass */
+/* line 46, ../sass/itemview.sass */
 .inventory-list a .basic-description em {
   color: #0e94ec;
   font-style: normal;
   font-weight: bold;
 }
-/* line 42, ../sass/itemview.sass */
+/* line 50, ../sass/itemview.sass */
 .inventory-list a .section {
   color: #c8c8c8;
 }
-/* line 44, ../sass/itemview.sass */
+/* line 52, ../sass/itemview.sass */
 .inventory-list a .size {
   color: #c8c8c8;
 }
-/* line 46, ../sass/itemview.sass */
+/* line 54, ../sass/itemview.sass */
 .inventory-list a .quantity, .inventory-list a .arrrow {
+  width: 20px;
+  text-align: right;
   float: right;
+  color: #787878;
+  font-weight: 500;
+}
+/* line 60, ../sass/itemview.sass */
+.inventory-list a .idtag {
+  color: #c8c8c8;
+}
+/* line 62, ../sass/itemview.sass */
+.inventory-list a .quantity_status {
+  float: right;
+  margin: 2px 5px;
+  box-sizing: border-box;
+  height: 10px;
+  width: 10px;
+  border-radius: 2px;
+}
+/* line 70, ../sass/itemview.sass */
+.inventory-list a .quantity_status.low {
+  background-color: #ff3232;
+}
+/* line 73, ../sass/itemview.sass */
+.inventory-list a .quantity_status.okay {
+  background-color: #fc8d17;
+}
+/* line 76, ../sass/itemview.sass */
+.inventory-list a .quantity_status.good {
+  background-color: #15d44e;
 }
 
-/* line 49, ../sass/itemview.sass */
+/* line 79, ../sass/itemview.sass */
 .flash {
   background-color: yellow;
 }
 
-/* line 52, ../sass/itemview.sass */
+/* line 82, ../sass/itemview.sass */
 .unflash {
   background-color: white;
   -webkit-transition: background-color 1s ease-out;

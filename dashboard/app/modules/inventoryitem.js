@@ -16,11 +16,25 @@ function(app) {
 			"type": null,
 			"quantity": null,
 			"threshold": {
-				"low": [0, 10],
-				"okay": [11, 20],
-				"good": [21, Infinity]
+				"good": [31, Infinity],
+				"okay": [11, 30],
+				"low": [0, 10]
 			}
 		},
+
+		calculateQuantityLevel: function() {
+			var quantity_status, quantity;
+
+			quantity = parseInt(this.get('quantity'));
+			_.every(this.toJSON().threshold, function(range, levelname) {
+				if (quantity >= range[0] && quantity <= range[1]) {
+					quantity_status = levelname;
+					return false;
+				}
+				return true;
+			});
+			this.set('quantity_status', quantity_status);
+		}
 	});
 
 
@@ -55,6 +69,7 @@ function(app) {
 		},
 	
 		serialize: function() {
+			this.model.calculateQuantityLevel();
 			return this.model.toJSON();
 		}
 	});
@@ -144,6 +159,9 @@ function(app) {
 		beforeRender: function() {
 			// this.limit(this.filtered, 20).each(function(item) {
 			this.filtered.each(function(item) {
+				// var quantity_level;
+
+				// if (quantity_level
 				this.insertView(".inventory-list", new InventoryItem.Views.Item({
 					model: item
 				}));
