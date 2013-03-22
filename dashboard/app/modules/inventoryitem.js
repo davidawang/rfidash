@@ -19,7 +19,8 @@ function(app) {
 				"good": [31, Infinity],
 				"okay": [11, 30],
 				"low": [0, 10]
-			}
+			},
+			"quantity_status": null
 		},
 
 		calculateQuantityLevel: function() {
@@ -33,7 +34,13 @@ function(app) {
 				}
 				return true;
 			});
-			this.set('quantity_status', quantity_status);
+
+			// silent or else the whole thing will rerender
+			this.set('quantity_status', quantity_status, {silent: true}); 
+		},
+
+		initialize: function() {
+			this.calculateQuantityLevel();
 		}
 	});
 
@@ -51,9 +58,6 @@ function(app) {
 		
 		tagName: "a href='#'",
 
-		initialize: function () {
-		},
-
 		flash: function(){
 			var _this = this;
 			this.$el.addClass('flash').removeClass('unflash');
@@ -63,13 +67,12 @@ function(app) {
 		},
 
 		afterRender: function() {
-			if (!_.isEmpty(this.model.changedAttributes())) {
+			if (this.model.changedAttributes() != false) {
 				this.flash();	
 			} 
 		},
 	
 		serialize: function() {
-			this.model.calculateQuantityLevel();
 			return this.model.toJSON();
 		}
 	});
@@ -102,13 +105,11 @@ function(app) {
 				"socket:items:change": function(data) {
 					console.log(data);
 					this.collection.set($.parseJSON(data), {add: false, remove: false});
-					// this.collection.sort();
 				},
 
 				"socket:items:new": function(data) {
 					console.log(data);
 					this.collection.add($.parseJSON(data));
-					// this.collection.sort();
 				},
 
 				"item:search": function(data) {
@@ -159,9 +160,6 @@ function(app) {
 		beforeRender: function() {
 			// this.limit(this.filtered, 20).each(function(item) {
 			this.filtered.each(function(item) {
-				// var quantity_level;
-
-				// if (quantity_level
 				this.insertView(".inventory-list", new InventoryItem.Views.Item({
 					model: item
 				}));
