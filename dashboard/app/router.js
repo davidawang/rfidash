@@ -2,7 +2,7 @@ define([
   // Application.
   "app",
   "modules/inventoryitem",
-  "modules/socket",
+  // "modules/socket",
   "modules/sockjs"
 
 ],

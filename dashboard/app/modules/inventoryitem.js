@@ -108,13 +108,15 @@ function(app) {
 				},
 
 				"socket:items:new": function(data) {
+					console.log("adding new item\n");
 					console.log(data);
 					this.collection.add($.parseJSON(data));
 				},
 
 				"socket:items:delete": function(data) {
+					console.log("removing data\n");
 					console.log(data);
-					this.collection.remove($.parseJSON(data));
+					this.collection.remove(new InventoryItem.Collection($.parseJSON(data)).models);
 				},
 
 				"item:search": function(data) {
@@ -125,10 +127,12 @@ function(app) {
 
 			// TODO: check out rivet.js
 			this.listenTo(this.collection, {
+				// "reset": this.filterResults,
+				"sort": this.filterResults,
+				"remove": this.filterResults,
 				"reset": this.filterResults,
-				// "sort": this.filterResults,
-				"remove": this.filterResults
-				// ""
+				"add": this.filterResults
+				// "all": this.fuckthis
 			});
 
 			this.listenTo(this.filtered, {
@@ -137,6 +141,9 @@ function(app) {
 
 		},
 
+		fuckthis: function(e) {
+			console.log(e);
+		},
 		// filters by both itemid or item name
 		filterResults: function(terms) {
 			var searchterm = _.isObject(terms) ? this.cachedsearch || "" : terms;
