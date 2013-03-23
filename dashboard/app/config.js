@@ -7,6 +7,7 @@ require.config({
 
   paths: {
     // Put paths here.
+    // 'sockjs': '../vendor/js/libs/sockjs.js'
   },
 
   shim: {

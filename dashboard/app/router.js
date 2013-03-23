@@ -3,6 +3,7 @@ define([
   "app",
   "modules/inventoryitem",
   "modules/socket",
+  "modules/sockjs"
 
 ],
 
@@ -12,20 +13,18 @@ function(app, InventoryItem) {
   var Router = Backbone.Router.extend({
     initialize: function() {
       var collections = {
-        items: new InventoryItem.Collection()
+        items: new InventoryItem.Collection(),
+        // cart: new Checkout.Collection(),
       };
-
       _.extend(this, collections);
 
-      app.useLayout("layouts/main").setViews({
-        
-        "#content-window": new InventoryItem.Views.ListView(collections)
-      }).render();
+      
 
     },
     routes: {
       "": "index",
-      "listview": "listview"
+      "listview": "listview",
+      "checkout": "checkout"
     },
 
     index: function() {
@@ -33,8 +32,17 @@ function(app, InventoryItem) {
     },
 
     listview: function() {
-
+      app.useLayout("layouts/main").setViews({
+        
+        "#content-window": new InventoryItem.Views.ListView(this.collections)
+      }).render();
     },
+    
+    // checkout: function() {
+    //   app.useLayout("layouts/main").setViews({
+    //     "#content-window": new Checkout.Views.Cart(this.cart)
+    //   }).render();
+    // },
 
     reset: function() {
       if (this.items.length)

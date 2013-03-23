@@ -112,6 +112,11 @@ function(app) {
 					this.collection.add($.parseJSON(data));
 				},
 
+				"socket:items:delete": function(data) {
+					console.log(data);
+					this.collection.remove($.parseJSON(data));
+				},
+
 				"item:search": function(data) {
 					this.filterResults(data);
 				}
@@ -121,7 +126,9 @@ function(app) {
 			// TODO: check out rivet.js
 			this.listenTo(this.collection, {
 				"reset": this.filterResults,
-				"sort": this.filterResults
+				// "sort": this.filterResults,
+				"remove": this.filterResults
+				// ""
 			});
 
 			this.listenTo(this.filtered, {
