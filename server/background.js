@@ -4,7 +4,7 @@ var Simulator = require('./simulator.js'),
 	sim.start();
 
 // var job = new cronJob('1-60 */9 * * * *', function(){
-var job = new cronJob('*/9 1-59 * * * *', function(){
+var job = new cronJob('*/1 1-59 * * * *', function(){
 
     // Runs every weekday (Monday through Friday)
     // at 11:30:00 AM. It does not run on Saturday

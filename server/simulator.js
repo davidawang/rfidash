@@ -38,8 +38,12 @@ Simulator.prototype.start = function() {
 
 Simulator.prototype.generate_checkout_items = function() {
 	var checkout_items = [];
+	var newItem;
+
 	for(var i = 0; i < 10; i++ ) {
-		checkout_items.push(_.omit(item.generateNewItemJson(false), "quantity"));
+		newItem = item.generateNewItemJson(false);
+		newItem.quantity = 1;
+		checkout_items.push(newItem);
 	}
 	this.checkout_items = checkout_items;
 }
@@ -53,10 +57,12 @@ Simulator.prototype.simulate = function() {
 }
 
 Simulator.prototype.simulate_checkout = function() {
+	var result = [];
 	// generate a list of 10 different items.
 	// Then only pick from those 10 items and push it out (only add, no remove functionality).
 	var idx = _.random(0, this.checkout_items.length - 1);
-	checkout.emit("new", JSON.stringify(this.checkout_items[idx]));
+	result.push(this.checkout_items[idx]);
+	checkout.emit("new", JSON.stringify(result));
 }
 
 Simulator.prototype.simulate_inventorychange = function() {
