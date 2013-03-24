@@ -24,15 +24,17 @@ Item = function(){
 		cur_num_items = res;
 	})
 
-	this.generateNewItemJson = function(){
-		cur_num_items++;
+	this.generateNewItemJson = function(should_increment){
+		var should_increment = should_increment || true;
+		if (should_increment) cur_num_items++;
 
 		return {
 			'itemid': cur_num_items,
 			'section': sections[_.random(0, sections.length - 1)],
 			'name': brands[_.random(0, brands.length - 1)]+ " " + clothings[_.random(0, clothings.length - 1)],
 			'type': type[_.random(0, type.length - 1)],
-			'quantity': _.random(20, 100)
+			'quantity': _.random(20, 100),
+			'price': _.random(100, 10000)/100
 		}
 	}
 

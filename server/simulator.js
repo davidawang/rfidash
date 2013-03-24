@@ -13,6 +13,8 @@ var inventory = io
 		});
 	});
 
+var checkout = io
+	.of('/checkout')
 
 
 // function will only run according to the given probability.
@@ -22,8 +24,6 @@ var ProcessProbability = function(prob, fn) {
 	}
 }
 
-
-
 var Simulator = function(){
 
 }
@@ -32,6 +32,16 @@ Simulator.prototype.start = function() {
 	item.init(function(res){
 		inventory.emit("init", JSON.stringify(res));
 	});
+
+	this.generate_checkout_items();
+}
+
+Simulator.prototype.generate_checkout_items = function() {
+	var checkout_items = [];
+	for(var i = 0; i < 10; i++ ) {
+		checkout_items.push(_.omit(item.generateNewItemJson(false), "quantity"));
+	}
+	this.checkout_items = checkout_items;
 }
 
 Simulator.prototype.simulate = function() {
@@ -39,8 +49,15 @@ Simulator.prototype.simulate = function() {
 
 	ProcessProbability(.1, _this.simulate_inventorychange());
 	// ProcessProbability(.1, _this.simulate_newitems(_.random(10, 20)));
+	ProcessProbability(1, _this.simulate_checkout());
 }
 
+Simulator.prototype.simulate_checkout = function() {
+	// generate a list of 10 different items.
+	// Then only pick from those 10 items and push it out (only add, no remove functionality).
+	var idx = _.random(0, this.checkout_items.length - 1);
+	checkout.emit("new", JSON.stringify(this.checkout_items[idx]));
+}
 
 Simulator.prototype.simulate_inventorychange = function() {
 	var allowed_deltas = [-10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -65,19 +82,6 @@ Simulator.prototype.simulate_newitems = function(number_of_items) {
 		inventory.emit("new", JSON.stringify(res));
 	});
 }
-
-	// each time it should randomly simulate between 
-
-// every few minutes does one of few things:
-// 		1) changes inventory of n random items
-// 			20% of all inventory
-// 		2) adds new items (this should be less frequent)
-// 			20% chance
-// 		3) delete items (when inventory is gone)
-// 			N/A not implemented yet
-// 		4) on new socket.io connection, do a return a json of all items
-//			call new Item.init()
-
 
 Simulator.prototype.end = function(){
 	item.end();
