@@ -1,0 +1,5 @@
+/* line 2, ../sass/checkout.sass */
+#checkoutCartItems a {
+  display: block;
+  border-bottom: 1px solid #fafafa;
+}

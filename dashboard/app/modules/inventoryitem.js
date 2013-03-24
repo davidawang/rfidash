@@ -117,7 +117,6 @@ function(app) {
 				}
 			});
 
-
 			// TODO: check out rivet.js
 			this.listenTo(this.collection, {
 				"reset": this.filterResults,
@@ -168,7 +167,6 @@ function(app) {
 
 
 		// TODO: stop listening when view is cleaned up.
-
 	});
 
 	InventoryItem.Views.ListView = Backbone.Layout.extend({

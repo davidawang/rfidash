@@ -286,3 +286,9 @@ div#account-dropdown:hover #account-dropdown-sub {
   -o-transition: background-color 1s ease-out;
   transition: background-color 1s ease-out;
 }
+
+/* line 2, ../sass/checkout.sass */
+#checkoutCartItems a {
+  display: block;
+  border-bottom: 1px solid #fafafa;
+}
