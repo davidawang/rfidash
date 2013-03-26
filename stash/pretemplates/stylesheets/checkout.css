@@ -1,0 +1,131 @@
+/* line 3, ../sass/checkout.sass */
+#checkoutMain, #checkoutCart {
+  box-sizing: border-box;
+  height: 500px;
+  padding: 0;
+  border: 1px solid gainsboro;
+}
+/* line 10, ../sass/checkout.sass */
+#checkoutMain #tab-bar, #checkoutCart #tab-bar {
+  border-top-right-radius: 0;
+}
+/* line 13, ../sass/checkout.sass */
+#checkoutMain #store-content, #checkoutCart #store-content {
+  height: 448px;
+  padding: 20px;
+  overflow: hidden;
+}
+/* line 17, ../sass/checkout.sass */
+#checkoutMain #store-content div, #checkoutCart #store-content div {
+  display: inline-block;
+  width: 120px;
+  height: 86px;
+  border: 1px solid #e6e6e6;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  margin-right: 18px;
+}
+
+/* line 26, ../sass/checkout.sass */
+#checkoutMain {
+  border-top-left-radius: 8px;
+  border-right: 1px solid white;
+}
+
+/* line 31, ../sass/checkout.sass */
+#checkoutCart {
+  border-radius: 5px;
+  overflow: auto;
+  padding: 0;
+  -webkit-box-shadow: rgba(150, 150, 150, 0.5) 0px 2px 2px;
+  -moz-box-shadow: rgba(150, 150, 150, 0.5) 0px 2px 2px;
+  box-shadow: rgba(150, 150, 150, 0.5) 0px 2px 2px;
+}
+/* line 38, ../sass/checkout.sass */
+#checkoutCart header {
+  border-top-right-radius: 8px;
+  height: 50px;
+  background-color: white;
+  *zoom: 1;
+  filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#FFFFFFFF', endColorstr='#FFF2F2F2');
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(100%, #f2f2f2));
+  background-image: -webkit-linear-gradient(top, #ffffff 0%, #f2f2f2 100%);
+  background-image: -moz-linear-gradient(top, #ffffff 0%, #f2f2f2 100%);
+  background-image: -o-linear-gradient(top, #ffffff 0%, #f2f2f2 100%);
+  background-image: linear-gradient(top, #ffffff 0%, #f2f2f2 100%);
+  border-bottom: 1px solid gainsboro;
+  padding: 6px;
+}
+/* line 47, ../sass/checkout.sass */
+#checkoutCart header span {
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 7px 15px;
+  font-size: 16pt;
+  background-color: white;
+  display: block;
+  width: 163px;
+  text-align: right;
+  float: right;
+  font-weight: bold;
+}
+/* line 59, ../sass/checkout.sass */
+#checkoutCart header em {
+  width: 50px;
+  height: 40px;
+  background-image: url("../img/cart.svg");
+  background-repeat: no-repeat;
+  background-size: 49px;
+  background-position: -1px -4px;
+  display: block;
+  float: left;
+}
+/* line 69, ../sass/checkout.sass */
+#checkoutCart footer {
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  background-color: white;
+  border-top: 1px solid gainsboro;
+  height: 10px;
+}
+
+/* line 76, ../sass/checkout.sass */
+#checkoutCartItems {
+  box-sizing: border-box;
+  height: 438px;
+  background-color: white;
+}
+/* line 80, ../sass/checkout.sass */
+#checkoutCartItems a {
+  padding: 5px 15px;
+  font-style: normal;
+  color: black;
+  display: block;
+  border-bottom: 1px solid #c8c8c8;
+}
+/* line 87, ../sass/checkout.sass */
+#checkoutCartItems a p {
+  margin: 0;
+}
+/* line 90, ../sass/checkout.sass */
+#checkoutCartItems .cart-item-details {
+  margin-top: -5px !important;
+  color: #646464;
+  font-size: 10pt;
+  font-style: italic;
+}
+/* line 97, ../sass/checkout.sass */
+#checkoutCartItems .cart-item-main .name {
+  font-weight: bold;
+}
+/* line 100, ../sass/checkout.sass */
+#checkoutCartItems .cart-item-main .totalprice {
+  float: right;
+  width: 60px;
+  text-align: right;
+  margin-left: 10px;
+}
+/* line 108, ../sass/checkout.sass */
+#checkoutCartItems .cart-item-main .quantity {
+  float: right;
+}
