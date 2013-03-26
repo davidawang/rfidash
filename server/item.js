@@ -15,11 +15,11 @@ Item = function(){
 	var sections = ["mens", "womens", "boy", "girl", "children", "teen"];
 	var brands = ["Adidas", "Armani", "Gap", "Macys", "Guess", "Diesel", "Dockers", "JCrew", "Kenneth Cole", "Lacoste", "Ralpha Lauren Polo", "Nike", "Tommy Hilfiger"];
 	var clothings = ["pants", "jeans", "sweather", "peacoat", "shoes", "socks", "undergarments", "vest", "turtleneck", "trench coat", "gloves"];
-	var type = ["M", "S", "XS", "L", "XL", "XXL"];
+	var size = ["M", "S", "XS", "L", "XL", "XXL"];
 	var cur_num_items = 0;
 	
 	// reload the largest id number so our indexes don't get overwritten
-	client.get("itemid:largest", function(err, res) {
+	client.get("epc:largest", function(err, res) {
 		if (err) throw err;
 		cur_num_items = res;
 	})
@@ -29,10 +29,10 @@ Item = function(){
 		if (should_increment) cur_num_items++;
 
 		return {
-			'itemid': cur_num_items,
+			'epc': cur_num_items,
 			'section': sections[_.random(0, sections.length - 1)],
 			'name': brands[_.random(0, brands.length - 1)]+ " " + clothings[_.random(0, clothings.length - 1)],
-			'type': type[_.random(0, type.length - 1)],
+			'size': size[_.random(0, size.length - 1)],
 			'quantity': _.random(20, 100),
 			'price': _.random(100, 10000)/100
 		}
@@ -66,14 +66,14 @@ Item.prototype.getItems = function(min, max, callback){
 		var multi = client.multi();
 
 		for (var i = 0; i < replies.length; i = i + 2) {
-			var itemid = replies[i];
+			var epc = replies[i];
 			var quantity = replies[i + 1];
-			(function(itemid, quantity){
-				multi.hgetall(itemid, function(err, res) {
+			(function(epc, quantity){
+				multi.hgetall(epc, function(err, res) {
 					if (err) throw err;
-					result.push(_.extend(res, {'quantity': quantity, 'itemid': parseInt(itemid.replace(/[^0-9.]/g, ""))}));
+					result.push(_.extend(res, {'quantity': quantity, 'epc': parseInt(epc.replace(/[^0-9.]/g, ""))}));
 				});
-			})(itemid, quantity);
+			})(epc, quantity);
 		}
 		multi.exec(function(err, replies){
 			handleCallback(callback, result);
@@ -105,10 +105,10 @@ Item.prototype.generateRandomItems = function(number_of_new_items, callback){
 	for(var i = 0; i < number_of_new_items; i++) {
 		(function(){
 			var newitem = _this.generateNewItemJson();
-			multi.hmset("itemid:" + newitem.itemid, "section", newitem.section, "name", newitem.name, "type", newitem.type, function(err, res){
+			multi.hmset("epc:" + newitem.epc, "section", newitem.section, "name", newitem.name, "size", newitem.size, function(err, res){
 				if (err) throw err;
 
-				var args = ['items', newitem.quantity , "itemid:" + newitem.itemid]; // add a random quantity of items
+				var args = ['items', newitem.quantity , "epc:" + newitem.epc]; // add a random quantity of items
 				multi2.zadd(args, function (err, res) {
 					if (err) throw err;
 					result_arr.push(newitem);
@@ -122,7 +122,7 @@ Item.prototype.generateRandomItems = function(number_of_new_items, callback){
 		if (err) throw err;
 		multi2.exec(function(err, replies){
 			if (err) throw err;
-			client.incrby('itemid:largest', replies.length, function(err, res) {
+			client.incrby('epc:largest', replies.length, function(err, res) {
 			});
 			
 			handleCallback(callback, result_arr);
@@ -132,33 +132,33 @@ Item.prototype.generateRandomItems = function(number_of_new_items, callback){
 
 // test for cli
 Item.prototype.changeInventory2 = function(){
-	var itemids = ['itemid:127', 'itemid:136'];
+	var epcs = ['epc:127', 'epc:136'];
 	var deltas = [-3, -2];
-	this.changeInventory(itemids, deltas);
+	this.changeInventory(epcs, deltas);
 }
 
-// Accepts an array of itemids and their corresponding deltas in the delta array.
-Item.prototype.changeInventory = function(itemids, deltas, callback) {
+// Accepts an array of epcs and their corresponding deltas in the delta array.
+Item.prototype.changeInventory = function(epcs, deltas, callback) {
 	var multi = client.multi();
 	var multi2 = client.multi();
 
 	var jsonResponse = [];
 
-	for(var i = 0; i < itemids.length; i++) {
+	for(var i = 0; i < epcs.length; i++) {
 		(function(i){
-			multi.zincrby('items', deltas[i], itemids[i], function(err, res) {
+			multi.zincrby('items', deltas[i], epcs[i], function(err, res) {
 				var newQuantity = parseFloat(res);
 
 				if (newQuantity < 0) { // if inventory < 0, set it back to 0
-					var args = ['items', 0, itemids[i]];
+					var args = ['items', 0, epcs[i]];
 					multi2.zadd(args, function (err, res) {
 						if (err) throw err;
 						newQuantity = 0;
 					});
 				}
-				multi2.hgetall(itemids[i], function(err, res) {
+				multi2.hgetall(epcs[i], function(err, res) {
 					if (err) throw err;
-					jsonResponse.push(_.extend(res, {'quantity': newQuantity, 'itemid': parseInt(itemids[i].replace(/[^0-9.]/g, ""))}));
+					jsonResponse.push(_.extend(res, {'quantity': newQuantity, 'epc': parseInt(epcs[i].replace(/[^0-9.]/g, ""))}));
 				});
 			});
 		})(i);

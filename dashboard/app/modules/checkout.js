@@ -9,10 +9,10 @@ function(app) {
 
 	// similar to inventoryitem, but it will have some differences
 	Checkout.Model = Backbone.Model.extend({
-		idAttribute: "itemid",
+		idAttribute: "epc",
 
 		defaults: {
-			"itemid": null,
+			"epc": null,
 			"name": null,
 			"section": null,
 			"type": null,
@@ -53,7 +53,7 @@ function(app) {
 		// 2)  updates total price
 		addToCart: function(models) {
 			var changed, dup, i, newQuantity, nonDup;
-			changed = _.pluck(models, 'itemid');
+			changed = _.pluck(models, 'epc');
 			console.log(changed);
 			for (i = 0; i < models.length; i++) {
 				// make sure cart total model has been instantiated.
@@ -61,7 +61,7 @@ function(app) {
 					this.total.set('total', this.total.get('total') + models[i].price);
 				}
 
-				dup = this.get(models[i].itemid);
+				dup = this.get(models[i].epc);
 				if (dup) {
 					newQuantity = dup.get("quantity") + models[i].quantity;
 					dup.set("quantity", newQuantity);
