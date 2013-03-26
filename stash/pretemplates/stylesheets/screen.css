@@ -10,7 +10,7 @@
 
 /* line 8, ../sass/_common.sass */
 #application {
-  background-image: url("/img/debut_light/debut_light.png");
+  background-image: url("../img/debut_light/debut_light.png");
   height: 100%;
   font-family: HelveticaNeue, Helvetica;
 }
@@ -166,30 +166,30 @@ div#account-dropdown:hover #account-dropdown-sub {
   width: 100%;
 }
 
-/* line 1, ../sass/itemview.sass */
+/* line 4, ../sass/itemview.sass */
 #item-search-form {
   margin-bottom: -12px;
 }
-/* line 3, ../sass/itemview.sass */
+/* line 6, ../sass/itemview.sass */
 #item-search-form input {
   box-shadow: inset 0px 0px 4px rgba(150, 150, 150, 0.5);
   border: none;
-  background: url(/img/search.png) no-repeat 10px 10px;
+  background: url(../img/search.png) no-repeat 10px 10px;
   padding-left: 28px;
   background-size: 11px;
 }
-/* line 9, ../sass/itemview.sass */
+/* line 12, ../sass/itemview.sass */
 #item-search-form input::-webkit-input-placeholder {
   color: rgba(0, 0, 0, 0.3);
   font-weight: 100;
   font-size: 10pt;
 }
-/* line 13, ../sass/itemview.sass */
+/* line 16, ../sass/itemview.sass */
 #item-search-form input:focus {
   outline: none;
 }
 
-/* line 16, ../sass/itemview.sass */
+/* line 19, ../sass/itemview.sass */
 #item-column-titles {
   border-top: 1px solid #c8c8c8;
   border-bottom: 1px solid #c8c8c8;
@@ -199,37 +199,227 @@ div#account-dropdown:hover #account-dropdown-sub {
   font-size: 9pt;
   color: #c8c8c8;
 }
-/* line 25, ../sass/itemview.sass */
+/* line 28, ../sass/itemview.sass */
 #item-column-titles span {
   padding: 0px 5px;
 }
 
-/* line 29, ../sass/itemview.sass */
+/* line 31, ../sass/itemview.sass */
+.inventory-list {
+  overflow: auto;
+  height: 370px;
+}
+/* line 34, ../sass/itemview.sass */
 .inventory-list a {
+  background-image: url("../img/tag.svg");
+  background-repeat: no-repeat;
+  background-size: 15px 15px;
+  background-position: 7px 6px;
   display: block;
   font-size: 10pt;
   padding: 7px 10px;
   border-bottom: 1px solid #c8c8c8;
 }
-/* line 34, ../sass/itemview.sass */
-.inventory-list .basic-description {
+/* line 43, ../sass/itemview.sass */
+.inventory-list a .basic-description {
+  margin-left: 17px;
   color: #646464;
 }
-/* line 36, ../sass/itemview.sass */
-.inventory-list .basic-description em {
+/* line 46, ../sass/itemview.sass */
+.inventory-list a .basic-description em {
   color: #0e94ec;
   font-style: normal;
   font-weight: bold;
 }
-/* line 40, ../sass/itemview.sass */
-.inventory-list .section {
+/* line 50, ../sass/itemview.sass */
+.inventory-list a .section {
   color: #c8c8c8;
 }
-/* line 42, ../sass/itemview.sass */
-.inventory-list .size {
+/* line 52, ../sass/itemview.sass */
+.inventory-list a .size {
   color: #c8c8c8;
 }
-/* line 44, ../sass/itemview.sass */
-.inventory-list .quantity, .inventory-list .arrrow {
+/* line 54, ../sass/itemview.sass */
+.inventory-list a .quantity, .inventory-list a .arrrow {
+  width: 20px;
+  text-align: right;
   float: right;
+  color: #787878;
+  font-weight: 500;
+}
+/* line 60, ../sass/itemview.sass */
+.inventory-list a .idtag {
+  color: #c8c8c8;
+}
+/* line 62, ../sass/itemview.sass */
+.inventory-list a .quantity_status {
+  float: right;
+  margin: 2px 5px;
+  box-sizing: border-box;
+  height: 10px;
+  width: 10px;
+  border-radius: 2px;
+}
+/* line 70, ../sass/itemview.sass */
+.inventory-list a .quantity_status.low {
+  background-color: #ff3232;
+}
+/* line 73, ../sass/itemview.sass */
+.inventory-list a .quantity_status.okay {
+  background-color: #fc8d17;
+}
+/* line 76, ../sass/itemview.sass */
+.inventory-list a .quantity_status.good {
+  background-color: #15d44e;
+}
+
+/* line 79, ../sass/itemview.sass */
+.flash {
+  background-color: yellow;
+}
+
+/* line 82, ../sass/itemview.sass */
+.unflash {
+  background-color: white;
+  -webkit-transition: background-color 1s ease-out;
+  -moz-transition: background-color 1s ease-out;
+  -o-transition: background-color 1s ease-out;
+  transition: background-color 1s ease-out;
+}
+
+/* line 3, ../sass/checkout.sass */
+#checkoutMain, #checkoutCart {
+  box-sizing: border-box;
+  height: 500px;
+  padding: 0;
+  border: 1px solid gainsboro;
+}
+/* line 10, ../sass/checkout.sass */
+#checkoutMain #tab-bar, #checkoutCart #tab-bar {
+  border-top-right-radius: 0;
+}
+/* line 13, ../sass/checkout.sass */
+#checkoutMain #store-content, #checkoutCart #store-content {
+  height: 448px;
+  padding: 20px;
+  overflow: hidden;
+}
+/* line 17, ../sass/checkout.sass */
+#checkoutMain #store-content div, #checkoutCart #store-content div {
+  float: left;
+  display: inline-block;
+  width: 120px;
+  height: 86px;
+  border: 1px solid #e6e6e6;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  margin-right: 18px;
+}
+
+/* line 27, ../sass/checkout.sass */
+#checkoutMain {
+  border-top-left-radius: 8px;
+  border-right: 1px solid white;
+}
+
+/* line 32, ../sass/checkout.sass */
+#checkoutCart {
+  border-radius: 5px;
+  overflow: auto;
+  padding: 0;
+  -webkit-box-shadow: rgba(150, 150, 150, 0.5) 0px 2px 2px;
+  -moz-box-shadow: rgba(150, 150, 150, 0.5) 0px 2px 2px;
+  box-shadow: rgba(150, 150, 150, 0.5) 0px 2px 2px;
+}
+/* line 39, ../sass/checkout.sass */
+#checkoutCart header {
+  border-top-right-radius: 8px;
+  height: 50px;
+  background-color: white;
+  *zoom: 1;
+  filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#FFFFFFFF', endColorstr='#FFF2F2F2');
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(100%, #f2f2f2));
+  background-image: -webkit-linear-gradient(top, #ffffff 0%, #f2f2f2 100%);
+  background-image: -moz-linear-gradient(top, #ffffff 0%, #f2f2f2 100%);
+  background-image: -o-linear-gradient(top, #ffffff 0%, #f2f2f2 100%);
+  background-image: linear-gradient(top, #ffffff 0%, #f2f2f2 100%);
+  border-bottom: 1px solid gainsboro;
+  padding: 6px;
+}
+/* line 48, ../sass/checkout.sass */
+#checkoutCart header span {
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 7px 15px;
+  font-size: 16pt;
+  background-color: white;
+  display: block;
+  width: 163px;
+  text-align: right;
+  float: right;
+  font-weight: bold;
+  box-shadow: inset 0px 1px 4px rgba(190, 190, 190, 0.6);
+}
+/* line 61, ../sass/checkout.sass */
+#checkoutCart header em {
+  width: 50px;
+  height: 40px;
+  background-image: url("../img/cart.svg");
+  background-repeat: no-repeat;
+  background-size: 49px;
+  background-position: -1px -4px;
+  display: block;
+  float: left;
+}
+/* line 71, ../sass/checkout.sass */
+#checkoutCart footer {
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  background-color: white;
+  border-top: 1px solid gainsboro;
+  height: 10px;
+}
+
+/* line 78, ../sass/checkout.sass */
+#checkoutCartItems {
+  box-sizing: border-box;
+  height: 438px;
+  background-color: white;
+}
+/* line 82, ../sass/checkout.sass */
+#checkoutCartItems a {
+  padding: 5px 15px;
+  font-style: normal;
+  color: black;
+  display: block;
+  border-bottom: 1px solid #c8c8c8;
+}
+/* line 89, ../sass/checkout.sass */
+#checkoutCartItems a p {
+  margin: 0;
+}
+/* line 92, ../sass/checkout.sass */
+#checkoutCartItems .cart-item-details {
+  margin-top: -3px !important;
+  color: #aaaaaa;
+  font-size: 9pt;
+  font-style: italic;
+}
+/* line 99, ../sass/checkout.sass */
+#checkoutCartItems .cart-item-main .name {
+  color: #6b6b6b;
+}
+/* line 102, ../sass/checkout.sass */
+#checkoutCartItems .cart-item-main .totalprice {
+  float: right;
+  color: #5f5f5f;
+  font-weight: bold;
+  width: 60px;
+  text-align: right;
+  margin-left: 10px;
+}
+/* line 111, ../sass/checkout.sass */
+#checkoutCartItems .cart-item-main .quantity {
+  float: right;
+  color: #646464;
 }

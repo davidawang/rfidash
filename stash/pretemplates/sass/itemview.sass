@@ -1,9 +1,12 @@
+@import "compass/css3/transition"
+@import "compass/css3/border-radius"
+
 #item-search-form
 	margin-bottom: -12px
 	input
 		box-shadow: inset 0px 0px 4px rgba(150, 150, 150, 0.5)
 		border: none
-		background: url(/img/search.png) no-repeat 10px 10px
+		background: url(../img/search.png) no-repeat 10px 10px
 		padding-left: 28px
 		background-size: 11px
 		&::-webkit-input-placeholder
@@ -25,21 +28,58 @@
 	span
 		padding: 0px 5px
 
-.inventory-list
+.inventory-list 
+	overflow: auto
+	height: 370px
 	a
+		background-image: url('../img/tag.svg')
+		background-repeat: no-repeat
+		background-size: 15px 15px
+		background-position: 7px 6px
 		display: block
 		font-size: 10pt
 		padding: 7px 10px
 		border-bottom: 1px solid rgb(200, 200, 200)
-	.basic-description
-		color: rgb(100, 100, 100)
-		em
-			color: rgb(14, 148, 236)
-			font-style: normal
-			font-weight: bold
-	.section
-		color: rgb(200, 200, 200)
-	.size
-		color: rgb(200, 200, 200)
-	.quantity, .arrrow
-		float: right
+		.basic-description
+			margin-left: 17px
+			color: rgb(100, 100, 100)
+			em
+				color: rgb(14, 148, 236)
+				font-style: normal
+				font-weight: bold
+		.section
+			color: rgb(200, 200, 200)
+		.size
+			color: rgb(200, 200, 200)
+		.quantity, .arrrow
+			width: 20px
+			text-align: right
+			float: right
+			color: rgb(120, 120, 120)
+			font-weight: 500
+		.idtag
+			color: rgb(200, 200, 200)
+		.quantity_status
+			float: right
+			margin: 2px 5px
+			box-sizing: border-box
+			height: 10px
+			width: 10px
+			border-radius: 2px
+
+			&.low
+				background-color: rgb(255, 50, 50)
+
+			&.okay
+				background-color: rgb(252, 141, 23)
+
+			&.good
+				background-color: rgb(21, 212, 78)
+
+.flash
+	background-color: yellow
+
+.unflash
+	background-color: white
+	@include transition(background-color 1s ease-out)
+

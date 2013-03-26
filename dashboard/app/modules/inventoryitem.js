@@ -7,13 +7,13 @@ function(app) {
 	var InventoryItem = app.module();
 
 	InventoryItem.Model = Backbone.Model.extend({
-		idAttribute: "itemid",
+		idAttribute: "epc",
 
 		defaults: {
-			"itemid": null,
+			"epc": null,
 			"name": null,
 			"section": null,
-			"type": null,
+			"size": null,
 			"quantity": null,
 			"threshold": {
 				"good": [31, Infinity],
@@ -124,7 +124,6 @@ function(app) {
 				}
 			});
 
-
 			// TODO: check out rivet.js
 			this.listenTo(this.collection, {
 				// "reset": this.filterResults,
@@ -141,16 +140,13 @@ function(app) {
 
 		},
 
-		fuckthis: function(e) {
-			console.log(e);
-		},
-		// filters by both itemid or item name
+		// filters by both epc or item name
 		filterResults: function(terms) {
 			var searchterm = _.isObject(terms) ? this.cachedsearch || "" : terms;
 
 			var pattern = new RegExp(searchterm,"gi");
 			var filteredItems = this.collection.filter(function(item) {
-				return pattern.test(item.get("name")) || pattern.test(item.get("itemid"));
+				return pattern.test(item.get("name")) || pattern.test(item.get("epc"));
 			});
 
 			// don't rerender if search term was the same
@@ -182,7 +178,6 @@ function(app) {
 
 
 		// TODO: stop listening when view is cleaned up.
-
 	});
 
 	InventoryItem.Views.ListView = Backbone.Layout.extend({

@@ -2,23 +2,20 @@ define([
   // Application.
   "app",
   "modules/inventoryitem",
-  // "modules/socket",
+  "modules/checkout",
   "modules/sockjs"
-
+  "modules/socket",
 ],
 
-function(app, InventoryItem) {
+function(app, InventoryItem, Checkout) {
 
   // Defining the application router, you can attach sub routers here.
   var Router = Backbone.Router.extend({
     initialize: function() {
       var collections = {
         items: new InventoryItem.Collection(),
-        // cart: new Checkout.Collection(),
       };
       _.extend(this, collections);
-
-      
 
     },
     routes: {
@@ -28,13 +25,17 @@ function(app, InventoryItem) {
     },
 
     index: function() {
-      // this.reset();
     },
 
     listview: function() {
-      app.useLayout("layouts/main").setViews({
-        
-        "#content-window": new InventoryItem.Views.ListView(this.collections)
+      app.useLayout("layouts/main").setViews({  
+        "#content-window": new InventoryItem.Views.ListView()
+      }).render();
+    },
+
+    checkout: function() {
+      app.useLayout("layouts/checkout").setViews({
+        "#checkoutCart": new Checkout.Views.Cart(),
       }).render();
     },
     
