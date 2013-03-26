@@ -3,7 +3,7 @@ define([
   "app",
   "modules/inventoryitem",
   "modules/checkout",
-  "modules/sockjs"
+  "modules/sockjs",
   "modules/socket",
 ],
 

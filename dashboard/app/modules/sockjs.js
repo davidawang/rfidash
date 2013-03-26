@@ -18,6 +18,7 @@ function(app) {
     		app.vent.trigger("socket:items:new", payload);
     	} else if (eventType === "add") {
     		app.vent.trigger("socket:items:new", payload);
+            app.vent.trigger("socket:checkout:new", payload);
     	} else if (eventType === "remove") {
     		app.vent.trigger("socket:items:delete", payload);
     	}
