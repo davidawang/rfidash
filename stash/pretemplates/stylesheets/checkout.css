@@ -17,6 +17,7 @@
 }
 /* line 17, ../sass/checkout.sass */
 #checkoutMain #store-content div, #checkoutCart #store-content div {
+  float: left;
   display: inline-block;
   width: 120px;
   height: 86px;
@@ -26,13 +27,13 @@
   margin-right: 18px;
 }
 
-/* line 26, ../sass/checkout.sass */
+/* line 27, ../sass/checkout.sass */
 #checkoutMain {
   border-top-left-radius: 8px;
   border-right: 1px solid white;
 }
 
-/* line 31, ../sass/checkout.sass */
+/* line 32, ../sass/checkout.sass */
 #checkoutCart {
   border-radius: 5px;
   overflow: auto;
@@ -41,7 +42,7 @@
   -moz-box-shadow: rgba(150, 150, 150, 0.5) 0px 2px 2px;
   box-shadow: rgba(150, 150, 150, 0.5) 0px 2px 2px;
 }
-/* line 38, ../sass/checkout.sass */
+/* line 39, ../sass/checkout.sass */
 #checkoutCart header {
   border-top-right-radius: 8px;
   height: 50px;
@@ -56,7 +57,7 @@
   border-bottom: 1px solid gainsboro;
   padding: 6px;
 }
-/* line 47, ../sass/checkout.sass */
+/* line 48, ../sass/checkout.sass */
 #checkoutCart header span {
   border: 1px solid #e0e0e0;
   border-radius: 4px;
@@ -68,8 +69,9 @@
   text-align: right;
   float: right;
   font-weight: bold;
+  box-shadow: inset 0px 1px 4px rgba(190, 190, 190, 0.6);
 }
-/* line 59, ../sass/checkout.sass */
+/* line 61, ../sass/checkout.sass */
 #checkoutCart header em {
   width: 50px;
   height: 40px;
@@ -80,7 +82,7 @@
   display: block;
   float: left;
 }
-/* line 69, ../sass/checkout.sass */
+/* line 71, ../sass/checkout.sass */
 #checkoutCart footer {
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
@@ -89,13 +91,13 @@
   height: 10px;
 }
 
-/* line 76, ../sass/checkout.sass */
+/* line 78, ../sass/checkout.sass */
 #checkoutCartItems {
   box-sizing: border-box;
   height: 438px;
   background-color: white;
 }
-/* line 80, ../sass/checkout.sass */
+/* line 82, ../sass/checkout.sass */
 #checkoutCartItems a {
   padding: 5px 15px;
   font-style: normal;
@@ -103,29 +105,32 @@
   display: block;
   border-bottom: 1px solid #c8c8c8;
 }
-/* line 87, ../sass/checkout.sass */
+/* line 89, ../sass/checkout.sass */
 #checkoutCartItems a p {
   margin: 0;
 }
-/* line 90, ../sass/checkout.sass */
+/* line 92, ../sass/checkout.sass */
 #checkoutCartItems .cart-item-details {
-  margin-top: -5px !important;
-  color: #646464;
-  font-size: 10pt;
+  margin-top: -3px !important;
+  color: #aaaaaa;
+  font-size: 9pt;
   font-style: italic;
 }
-/* line 97, ../sass/checkout.sass */
+/* line 99, ../sass/checkout.sass */
 #checkoutCartItems .cart-item-main .name {
-  font-weight: bold;
+  color: #6b6b6b;
 }
-/* line 100, ../sass/checkout.sass */
+/* line 102, ../sass/checkout.sass */
 #checkoutCartItems .cart-item-main .totalprice {
   float: right;
+  color: #5f5f5f;
+  font-weight: bold;
   width: 60px;
   text-align: right;
   margin-left: 10px;
 }
-/* line 108, ../sass/checkout.sass */
+/* line 111, ../sass/checkout.sass */
 #checkoutCartItems .cart-item-main .quantity {
   float: right;
+  color: #646464;
 }
