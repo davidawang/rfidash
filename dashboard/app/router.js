@@ -19,11 +19,6 @@ function(app, InventoryItem, Checkout) {
 
       _.extend(this, collections);
 
-      // app.useLayout("layouts/main").setViews({
-        
-      //   "#content-window": new InventoryItem.Views.ListView(collections)
-      // }).render();
-
     },
     routes: {
       "": "index",
@@ -41,8 +36,8 @@ function(app, InventoryItem, Checkout) {
     },
 
     checkout: function() {
-      app.useLayout("layouts/main").setViews({
-        "#content-window": new Checkout.Views.Cart()
+      app.useLayout("layouts/checkout").setViews({
+        "#checkoutCart": new Checkout.Views.Cart(),
       }).render();
     },
 

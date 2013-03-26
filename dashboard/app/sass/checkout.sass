@@ -1,4 +1,125 @@
+@import compass/css3
+
+#checkoutMain, #checkoutCart
+	box-sizing: border-box
+	height: 500px
+	padding: 0
+	
+	border: 1px solid rgb(220, 220, 220)
+	
+	#tab-bar
+		border-top-right-radius: 0
+
+	#store-content
+		height: 448px
+		padding: 20px
+		overflow: hidden
+		div
+			float: left
+			display: inline-block
+			width: 120px
+			height: 86px
+			border: 1px solid rgb(230, 230, 230)
+			border-radius: 4px
+			margin-bottom: 20px
+			margin-right: 18px
+
+#checkoutMain
+	border-top-left-radius: 8px
+	border-right: 1px solid white
+	
+
+#checkoutCart
+	border-radius: 5px
+	overflow: auto
+	padding: 0
+
+	+box-shadow(rgba(150, 150, 150, 0.50) 0px 2px 2px)
+
+	header
+		border-top-right-radius: 8px
+		height: 50px
+		background-color: rgb(255,255,255)
+		@include filter-gradient(#ffffff, #f2f2f2, vertical)
+		@include background-image(linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(242,242,242,1) 100%)) 
+		border-bottom: 1px solid rgb(220, 220, 220)
+		padding: 6px
+
+		span
+			border: 1px solid rgb(224, 224, 224)
+			border-radius: 4px
+			padding: 7px 15px
+			font-size: 16pt
+			background-color: white
+			display: block
+			width: 163px
+			text-align: right
+			float: right
+			font-weight: bold
+			box-shadow: inset 0px 1px 4px rgba(190, 190, 190, .6)
+
+		em
+			width: 50px
+			height: 40px
+			background-image: url('../img/cart.svg')
+			background-repeat: no-repeat
+			background-size: 49px
+			background-position: -1px -4px
+			display: block
+			float: left
+
+	footer
+		border-bottom-right-radius: 5px
+		border-bottom-left-radius: 5px
+		background-color: white
+		border-top: 1px solid rgb(220, 220, 220)
+		height: 10px
+
 #checkoutCartItems
+	box-sizing: border-box
+	height: 438px
+	background-color: white
+	overflow: auto
 	a
+		padding: 5px 15px
+		font-style: normal
+		color: black
 		display: block
-		border-bottom: 1px solid rgb(250, 250, 250)
+		border-bottom: 1px solid rgb(200, 200, 200)
+
+		p
+			margin: 0
+
+
+
+	.cart-item-details
+		margin-top: -3px !important
+		color: rgb(170, 170, 170)
+		font-size: 9pt
+		font-style: italic
+
+	.cart-item-main
+		.name
+			color: rgb(107, 107, 107)
+			width: 110px
+			white-space: nowrap
+			overflow: hidden
+			text-overflow: ellipsis
+			display: inline-block
+
+		.totalprice
+			float: right
+			color: rgb(95, 95, 95)
+			font-weight: bold
+			width: 62px
+			text-align: right
+			margin-left: 10px
+
+
+		.quantity
+			float: right
+			color: rgb(100, 100, 100)
+
+
+
+

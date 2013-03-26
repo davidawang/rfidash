@@ -34,13 +34,12 @@ function(app) {
 			var quantity = parseInt(this.get("quantity")) || 0;
 			this.set('total', price * quantity);
 			this.set('totalFormatted', Number(this.get('total')).toFixed(2), {silent: true});
-		},
+		}
 	});
 
 
 		// similar to inventoryitem, but it will have some differences
 	Checkout.CartTotalModel = Backbone.Model.extend({
-		idAttribute: "itemid",
 		defaults: {
 			"total": 0
 		}
@@ -54,25 +53,27 @@ function(app) {
 		// 2)  updates total price
 		addToCart: function(models) {
 			var changed, dup, i, newQuantity, nonDup;
-			changed = [];
+			changed = _.pluck(models, 'itemid');
+			console.log(changed);
 			for (i = 0; i < models.length; i++) {
+				// make sure cart total model has been instantiated.
+				if (this.total) {
+					this.total.set('total', this.total.get('total') + models[i].price);
+				}
 
-					// make sure cart total model has been instantiated.
-					if (this.total) {
-						this.total.set('total', this.total.get('total') + models[i].price);
-					}
-
-					dup = this.get(models[i].itemid);
-					if (dup) {
-						newQuantity = dup.get("quantity") + models[i].quantity;
-						dup.set("quantity", newQuantity);
-						models.splice(i, 1);
-					}
+				dup = this.get(models[i].itemid);
+				if (dup) {
+					newQuantity = dup.get("quantity") + models[i].quantity;
+					dup.set("quantity", newQuantity);
+					models.splice(i, 1);
+				}
 			}
 			if (models.length > 0) {
 				this.add(models);
 			}
-
+			// for (i = 0; i < changed.length; i++) {
+			// 	this.get(changed[i]).flash();
+			// }
 			return this;
 		}
 	});
@@ -82,6 +83,31 @@ function(app) {
 		tagName: "a",
 		serialize: function() {
 			return this.model.toJSON();
+		},
+
+		// TODO: do this after you figure out selective updating
+		// flash: function(){
+		// 	var _this = this;
+		// 	this.$el.addClass('flash').removeClass('unflash');
+		// 	setTimeout(function() {
+		// 		_this.$el.addClass('unflash').removeClass('flash');
+		// 	}, 100);
+		// },
+
+		// afterRender: function() {
+			
+		// 	var changed = _.omit(this.model.changedAttributes(), 'totalFormatted');
+		// 	debugger
+		// 	if (changed != false && changed.length === 1 && changed.quantity) {
+		// 		this.flash();	
+		// 	} 
+		// },
+		initialize: function() {
+			this.on("change", this.boom ,this);
+		},
+		boom: function(a, b) {
+			console.log("boom")
+
 		}
 	});
 
@@ -102,8 +128,11 @@ function(app) {
 				"change": this.render
 			});
 		},
+
+		// TODO: move header out of cart view
+		// TODO: if only 1 item changes don't re-insert all of the views.
 		beforeRender: function() {
-			this.insertView("#checkoutHeader", new Checkout.Views.CartTotal({
+			this.insertView("header", new Checkout.Views.CartTotal({
 				model: this.cart.total
 			}));
 			this.cart.each(function(cartItem) {
@@ -119,7 +148,7 @@ function(app) {
 	});
 
 	Checkout.Views.CartTotal = Backbone.View.extend({
-		tagName: "div",
+		tagName: "span",
 		template: "checkout/carttotal",
 		serialize: function() {
 			return {
